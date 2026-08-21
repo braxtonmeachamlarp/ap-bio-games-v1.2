@@ -1,0 +1,3758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AP Bio Game Hub</title>
+<style>
+
+*{box-sizing:border-box;}
+body{margin:0;}
+div.page{display:none; min-height:100vh; width:100%;}
+div.page.active{display:flex; align-items:center; justify-content:center;}
+.wrap{width:100%;}
+
+.page-hub{
+    --deep:#0b2942;
+    --mid:#124a70;
+    --accent:#2ba4c9;
+    --light:#eef6fa;
+    --gold:#e0a52b;
+  
+  background:linear-gradient(160deg,#0b2942,#124a70 55%,#2ba4c9);
+  color:#0a2a3d;
+  font-family:'Segoe UI', Verdana, sans-serif;
+  min-height:100vh; width:100%; padding:20px; box-sizing:border-box;
+}
+.page-hub .wrap{width:100%; max-width:1000px;}
+.page-hub header{text-align:center; color:#fff; margin-bottom:34px;}
+.page-hub header h1{margin:0 0 8px; font-size:32px;}
+.page-hub header p{margin:0; font-size:15px; color:#dcecf4; max-width:560px; margin:0 auto;}
+.page-hub .chapter{
+    background:var(--light);
+    border-radius:20px;
+    padding:26px 28px 30px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.35);
+    margin-bottom:28px;
+  }
+.page-hub .chapter h2{margin:0 0 4px; color:var(--deep); font-size:20px;}
+.page-hub .chapter .sub{margin:0 0 20px; color:#3a6178; font-size:13px;}
+.page-hub .cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+    gap:18px;
+  }
+.page-hub .card{
+    background:#fff;
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.08);
+    display:flex; flex-direction:column;
+    border-top:6px solid var(--accent);
+    text-decoration:none;
+    color:inherit;
+    transition:transform .15s, box-shadow .15s;
+  }
+.page-hub .card:hover{transform:translateY(-3px); box-shadow:0 8px 22px rgba(0,0,0,0.15);}
+.page-hub .card .icon{font-size:34px; margin-bottom:8px;}
+.page-hub .card h3{margin:0 0 6px; font-size:17px; color:var(--deep);}
+.page-hub .card p{margin:0 0 16px; font-size:13px; color:#3a6178; line-height:1.5; flex:1;}
+.page-hub .card .play{
+    align-self:flex-start;
+    background:var(--mid); color:#fff; font-weight:700; font-size:13px;
+    padding:8px 16px; border-radius:8px;
+  }
+.page-hub .card.atoms{border-top-color:#a06fd6;}
+.page-hub .card.atoms .play{background:#6a3fa0;}
+.page-hub .card.bonding{border-top-color:#e8944e;}
+.page-hub .card.bonding .play{background:#c15a1e;}
+.page-hub .card.water{border-top-color:#2ba4c9;}
+.page-hub .card.water .play{background:#0f5f8c;}
+.page-hub .card.macro{border-top-color:#3fc79a;}
+.page-hub .card.macro .play{background:#1a8064;}
+.page-hub .card.carbslipids{border-top-color:#f0b545;}
+.page-hub .card.carbslipids .play{background:#c98317;}
+.page-hub .card.protein{border-top-color:#d16fb0;}
+.page-hub .card.protein .play{background:#9c3a7c;}
+.page-hub .card.nucleic{border-top-color:#4f93d1;}
+.page-hub .card.nucleic .play{background:#1c5a9c;}
+.page-hub .coming-soon{
+    text-align:center; color:#6a8fa8; font-size:13px; padding:18px 0 4px;
+    border-top:1px dashed #cfe2ec; margin-top:6px;
+  }
+.page-hub footer{text-align:center; color:#dcecf4; font-size:12px; margin-top:10px;}
+.page-atoms{
+    --deep:#3a1c5c;
+    --mid:#6a3fa0;
+    --accent:#a06fd6;
+    --light:#efe4fb;
+    --card:#ffffff;
+    --good:#2f9e63;
+    --bad:#d6533c;
+    --gold:#e0a52b;
+    --proton:#d6533c;
+    --neutron:#8a8f98;
+    --electron:#2b7fc9;
+  
+  background:linear-gradient(160deg,#3a1c5c,#6a3fa0 55%,#a06fd6);
+  color:#241436;
+  font-family:'Segoe UI', Verdana, sans-serif;
+  min-height:100vh; width:100%; padding:20px; box-sizing:border-box;
+}
+.page-atoms .app{
+    width:100%; max-width:960px;
+    background:var(--light);
+    border-radius:18px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.35);
+    padding:26px 30px 32px;
+    position:relative;
+  }
+.page-atoms .hub-link{
+    position:absolute; top:14px; left:18px; font-size:13px; font-weight:600;
+    color:var(--mid); text-decoration:none;
+  }
+.page-atoms .hub-link:hover{text-decoration:underline;}
+.page-atoms h1{margin:0 0 4px; font-size:26px; color:var(--deep);}
+.page-atoms .subtitle{margin:0 0 18px; color:#5a4270; font-size:14px;}
+.page-atoms .hud{
+    display:flex; flex-wrap:wrap; gap:10px 18px; margin-bottom:16px;
+    font-size:14px; color:var(--deep); font-weight:600;
+  }
+.page-atoms .hud span.tag{background:#fff; padding:5px 12px; border-radius:20px; box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.page-atoms .progress-bar{height:8px; background:#dccbf2; border-radius:6px; overflow:hidden; margin-bottom:20px;}
+.page-atoms .progress-fill{height:100%; background:linear-gradient(90deg,var(--accent),var(--good)); width:0%; transition:width .4s ease;}
+.page-atoms .screen{display:none;}
+.page-atoms .screen.active{display:block;}
+.page-atoms .btn{
+    background:var(--mid); color:#fff; border:none; padding:12px 22px; font-size:15px;
+    font-weight:600; border-radius:10px; cursor:pointer; transition:transform .15s, background .15s;
+  }
+.page-atoms .btn:hover{background:var(--deep); transform:translateY(-1px);}
+.page-atoms .btn.secondary{background:#fff; color:var(--mid); border:2px solid var(--mid);}
+.page-atoms .btn:disabled{opacity:.5; cursor:not-allowed;}
+.page-atoms .btn.small{padding:7px 14px; font-size:13px;}
+.page-atoms ul.rules{padding-left:20px; color:#4a3763; line-height:1.6; font-size:14px;}
+.page-atoms .start-box{text-align:center; padding:10px 0 4px;}
+.page-atoms .icon-big{font-size:50px; margin-bottom:6px;}
+.page-atoms .level-card{background:#fff; border-radius:14px; padding:22px; text-align:center; box-shadow:0 4px 14px rgba(0,0,0,0.08);}
+.page-atoms .level-card h2{margin-top:0; color:var(--deep);}
+.page-atoms /* Build screen */
+  .build-wrap{display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start;}
+.page-atoms .target-card{
+    background:#fff; border-radius:14px; padding:18px; flex:1; min-width:220px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.08);
+  }
+.page-atoms .target-card h3{margin:0 0 8px; color:var(--deep); font-size:18px;}
+.page-atoms .target-card .fact{font-size:13px; color:#5a4270; margin:4px 0;}
+.page-atoms .controls{margin-top:14px; display:flex; flex-direction:column; gap:10px;}
+.page-atoms .stepper{
+    display:flex; align-items:center; justify-content:space-between;
+    background:#f7f1fc; border-radius:10px; padding:8px 10px;
+  }
+.page-atoms .stepper .label{font-size:13px; font-weight:700; display:flex; align-items:center; gap:6px;}
+.page-atoms .dot{width:12px;height:12px;border-radius:50%; display:inline-block;}
+.page-atoms .dot.p{background:var(--proton);}
+.page-atoms .dot.n{background:var(--neutron);}
+.page-atoms .dot.e{background:var(--electron);}
+.page-atoms .stepper .count{font-size:16px; font-weight:800; min-width:22px; text-align:center;}
+.page-atoms .stepper button{
+    width:28px; height:28px; border-radius:50%; border:none; background:var(--mid); color:#fff;
+    font-size:16px; cursor:pointer; line-height:1;
+  }
+.page-atoms .stepper button:hover{background:var(--deep);}
+.page-atoms .hint-chip{font-size:11px; padding:2px 8px; border-radius:10px; margin-top:2px; display:inline-block;}
+.page-atoms .hint-chip.ok{background:#e5f7ec; color:#1f6e46;}
+.page-atoms .hint-chip.bad{background:#fdeceb; color:#8a2d20;}
+.page-atoms .atom-visual{
+    flex:1.2; min-width:280px; display:flex; align-items:center; justify-content:center;
+    position:relative; height:340px;
+  }
+.page-atoms .shell{
+    position:absolute; border:2px dashed #c6a9e8; border-radius:50%;
+    top:50%; left:50%; transform:translate(-50%,-50%);
+  }
+.page-atoms .nucleus{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:64px; height:64px; border-radius:50%;
+    background:radial-gradient(circle at 35% 35%, #fff, #e9def7);
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:center;
+    gap:2px; padding:4px; box-shadow:0 2px 8px rgba(0,0,0,0.2);
+    z-index:3;
+  }
+.page-atoms .nucleus .np{width:9px;height:9px;border-radius:50%;}
+.page-atoms .nucleus .np.p{background:var(--proton);}
+.page-atoms .nucleus .np.n{background:var(--neutron);}
+.page-atoms .e-dot{
+    position:absolute; width:12px; height:12px; border-radius:50%;
+    background:var(--electron); box-shadow:0 0 6px rgba(43,127,201,0.7);
+    z-index:2;
+  }
+.page-atoms .check-row{margin-top:16px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+.page-atoms .report{
+    background:#fff; border-radius:14px; padding:20px; margin-top:16px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.08);
+  }
+.page-atoms .report h3{margin-top:0; color:var(--deep);}
+.page-atoms .report p{font-size:14px; line-height:1.6; color:#33264a; margin:6px 0;}
+.page-atoms .report.success{border-left:6px solid var(--good);}
+.page-atoms .report.fail{border-left:6px solid var(--bad);}
+.page-atoms /* Quiz (shared style) */
+  .quiz-q{background:#fff; border-radius:14px; padding:22px; box-shadow:0 4px 14px rgba(0,0,0,0.08);}
+.page-atoms .quiz-q h3{margin-top:0; color:var(--deep); font-size:17px; line-height:1.4;}
+.page-atoms .options{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px;}
+.page-atoms .opt-btn{
+    background:#f7f1fc; border:2px solid #dccbf2; border-radius:10px;
+    padding:12px 14px; text-align:left; cursor:pointer; font-size:14px; color:#241436;
+  }
+.page-atoms .opt-btn:hover{border-color:var(--accent);}
+.page-atoms .opt-btn.correct{background:#e5f7ec; border-color:var(--good); color:#1f6e46; font-weight:700;}
+.page-atoms .opt-btn.incorrect{background:#fdeceb; border-color:var(--bad); color:#8a2d20; font-weight:700;}
+.page-atoms .opt-btn:disabled{cursor:default;}
+.page-atoms .results{text-align:center;}
+.page-atoms .grade{font-size:56px; font-weight:800; color:var(--gold); margin:8px 0;}
+.page-atoms .stat-row{display:flex; justify-content:center; gap:30px; margin:18px 0; flex-wrap:wrap;}
+.page-atoms .stat{background:#fff; border-radius:12px; padding:14px 20px; min-width:110px; box-shadow:0 3px 10px rgba(0,0,0,0.08);}
+.page-atoms .stat b{display:block; font-size:22px; color:var(--deep);}
+.page-atoms .stat span{font-size:12px; color:#6a5580;}
+.page-atoms footer.note{margin-top:16px; font-size:12px; color:#5a4270;}
+@media(max-width:700px){ .page-atoms .build-wrap{flex-direction:column;}.page-atoms .options{grid-template-columns:1fr;} }
+.page-bonding{
+    --deep:#7a2e0e;
+    --mid:#c15a1e;
+    --accent:#e8944e;
+    --light:#fdece0;
+    --card:#ffffff;
+    --good:#2f9e63;
+    --bad:#d6533c;
+    --gold:#e0a52b;
+    --ionic:#d6533c;
+    --nonpolar:#2f9e63;
+    --polar:#2b7fc9;
+    --hbond:#8a5fd6;
+    --vdw:#c58f1d;
+  
+  background:linear-gradient(160deg,#7a2e0e,#c15a1e 55%,#e8944e);
+  color:#3a1f0e;
+  font-family:'Segoe UI', Verdana, sans-serif;
+  min-height:100vh; width:100%; padding:20px; box-sizing:border-box;
+}
+.page-bonding .app{
+    width:100%; max-width:960px;
+    background:var(--light);
+    border-radius:18px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.35);
+    padding:26px 30px 32px;
+    position:relative;
+  }
+.page-bonding .hub-link{
+    position:absolute; top:14px; left:18px; font-size:13px; font-weight:600;
+    color:var(--mid); text-decoration:none;
+  }
+.page-bonding .hub-link:hover{text-decoration:underline;}
+.page-bonding h1{margin:0 0 4px; font-size:26px; color:var(--deep);}
+.page-bonding .subtitle{margin:0 0 18px; color:#7a5238; font-size:14px;}
+.page-bonding .hud{display:flex; flex-wrap:wrap; gap:10px 18px; margin-bottom:16px; font-size:14px; color:var(--deep); font-weight:600;}
+.page-bonding .hud span.tag{background:#fff; padding:5px 12px; border-radius:20px; box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.page-bonding .progress-bar{height:8px; background:#f3d8bf; border-radius:6px; overflow:hidden; margin-bottom:20px;}
+.page-bonding .progress-fill{height:100%; background:linear-gradient(90deg,var(--accent),var(--good)); width:0%; transition:width .4s ease;}
+.page-bonding .screen{display:none;}
+.page-bonding .screen.active{display:block;}
+.page-bonding .btn{
+    background:var(--mid); color:#fff; border:none; padding:12px 22px; font-size:15px;
+    font-weight:600; border-radius:10px; cursor:pointer; transition:transform .15s, background .15s;
+  }
+.page-bonding .btn:hover{background:var(--deep); transform:translateY(-1px);}
+.page-bonding .btn.secondary{background:#fff; color:var(--mid); border:2px solid var(--mid);}
+.page-bonding .btn:disabled{opacity:.5; cursor:not-allowed;}
+.page-bonding ul.rules{padding-left:20px; color:#5c3a20; line-height:1.6; font-size:14px;}
+.page-bonding .start-box{text-align:center; padding:10px 0 4px;}
+.page-bonding .icon-big{font-size:50px; margin-bottom:6px;}
+.page-bonding .legend{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin:14px 0;}
+.page-bonding .legend .chip{
+    font-size:12px; font-weight:700; padding:5px 10px; border-radius:20px; color:#fff;
+  }
+.page-bonding .sort-card{
+    background:#fff; border-radius:16px; padding:28px 24px; text-align:center;
+    box-shadow:0 6px 18px rgba(0,0,0,0.12); max-width:600px; margin:0 auto 20px;
+    min-height:90px; display:flex; align-items:center; justify-content:center;
+  }
+.page-bonding .sort-card p{font-size:16px; line-height:1.5; color:#2c1a0e; margin:0;}
+.page-bonding .bin-row{display:grid; grid-template-columns:repeat(5,1fr); gap:10px;}
+.page-bonding .bin-btn{
+    border:2px solid transparent; border-radius:12px; padding:12px 8px; cursor:pointer;
+    font-size:13px; font-weight:700; color:#fff; text-align:center; line-height:1.3;
+  }
+.page-bonding .bin-btn.ionic{background:var(--ionic);}
+.page-bonding .bin-btn.nonpolar{background:var(--nonpolar);}
+.page-bonding .bin-btn.polar{background:var(--polar);}
+.page-bonding .bin-btn.hbond{background:var(--hbond);}
+.page-bonding .bin-btn.vdw{background:var(--vdw);}
+.page-bonding .bin-btn:hover{transform:translateY(-2px); filter:brightness(1.05);}
+.page-bonding .bin-btn:disabled{opacity:.5; cursor:not-allowed;}
+.page-bonding .bin-btn.correct-flash{outline:4px solid #2f9e63; outline-offset:2px;}
+.page-bonding .bin-btn.incorrect-flash{outline:4px solid #d6533c; outline-offset:2px;}
+.page-bonding .feedback-line{text-align:center; margin-top:14px; font-size:14px; font-weight:600; min-height:20px;}
+.page-bonding .feedback-line.good{color:var(--good);}
+.page-bonding .feedback-line.bad{color:var(--bad);}
+.page-bonding .quiz-q{background:#fff; border-radius:14px; padding:22px; box-shadow:0 4px 14px rgba(0,0,0,0.08);}
+.page-bonding .quiz-q h3{margin-top:0; color:var(--deep); font-size:17px; line-height:1.4;}
+.page-bonding .options{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px;}
+.page-bonding .opt-btn{
+    background:#fdf2e8; border:2px solid #f3d8bf; border-radius:10px;
+    padding:12px 14px; text-align:left; cursor:pointer; font-size:14px; color:#3a1f0e;
+  }
+.page-bonding .opt-btn:hover{border-color:var(--accent);}
+.page-bonding .opt-btn.correct{background:#e5f7ec; border-color:var(--good); color:#1f6e46; font-weight:700;}
+.page-bonding .opt-btn.incorrect{background:#fdeceb; border-color:var(--bad); color:#8a2d20; font-weight:700;}
+.page-bonding .opt-btn:disabled{cursor:default;}
+.page-bonding .results{text-align:center;}
+.page-bonding .grade{font-size:56px; font-weight:800; color:var(--gold); margin:8px 0;}
+.page-bonding .stat-row{display:flex; justify-content:center; gap:30px; margin:18px 0; flex-wrap:wrap;}
+.page-bonding .stat{background:#fff; border-radius:12px; padding:14px 20px; min-width:110px; box-shadow:0 3px 10px rgba(0,0,0,0.08);}
+.page-bonding .stat b{display:block; font-size:22px; color:var(--deep);}
+.page-bonding .stat span{font-size:12px; color:#7a5238;}
+.page-bonding footer.note{margin-top:16px; font-size:12px; color:#7a5238;}
+@media(max-width:700px){ .page-bonding .bin-row{grid-template-columns:repeat(2,1fr);}.page-bonding .options{grid-template-columns:1fr;} }
+.page-water{
+    --deep:#083358;
+    --mid:#0f5f8c;
+    --accent:#2ba4c9;
+    --light:#d7f1f7;
+    --card:#ffffff;
+    --good:#2f9e63;
+    --bad:#d6533c;
+    --gold:#e0a52b;
+  
+  background:linear-gradient(160deg,#083358,#0f5f8c 55%,#2ba4c9);
+  color:#0a2a3d;
+  font-family:'Segoe UI', Verdana, sans-serif;
+  min-height:100vh; width:100%; padding:20px; box-sizing:border-box;
+}
+.page-water .app{
+    width:100%;
+    max-width:920px;
+    background:var(--light);
+    border-radius:18px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.35);
+    padding:26px 30px 32px;
+    position:relative;
+    overflow:hidden;
+  }
+.page-water .app::before{
+    content:"";
+    position:absolute; top:-60px; right:-60px;
+    width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle, rgba(43,164,201,0.35), transparent 70%);
+  }
+.page-water h1{
+    margin:0 0 4px;
+    font-size:26px;
+    color:var(--deep);
+  }
+.page-water .subtitle{
+    margin:0 0 18px;
+    color:#3a6178;
+    font-size:14px;
+  }
+.page-water .hud{
+    display:flex; flex-wrap:wrap; gap:10px 18px;
+    margin-bottom:16px;
+    font-size:14px;
+    color:var(--deep);
+    font-weight:600;
+  }
+.page-water .hud span.tag{
+    background:#fff; padding:5px 12px; border-radius:20px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+  }
+.page-water .progress-bar{
+    height:8px; background:#c6e5ee; border-radius:6px; overflow:hidden; margin-bottom:20px;
+  }
+.page-water .progress-fill{
+    height:100%; background:linear-gradient(90deg,var(--accent),var(--good));
+    width:0%; transition:width .4s ease;
+  }
+.page-water /* Screens */
+  .screen{display:none;}
+.page-water .screen.active{display:block;}
+.page-water .btn{
+    background:var(--mid);
+    color:#fff;
+    border:none;
+    padding:12px 22px;
+    font-size:15px;
+    font-weight:600;
+    border-radius:10px;
+    cursor:pointer;
+    transition:transform .15s, background .15s;
+  }
+.page-water .btn:hover{background:var(--deep); transform:translateY(-1px);}
+.page-water .btn.secondary{background:#fff; color:var(--mid); border:2px solid var(--mid);}
+.page-water .btn:disabled{opacity:.5; cursor:not-allowed;}
+.page-water ul.rules{padding-left:20px; color:#2c4f65; line-height:1.6; font-size:14px;}
+.page-water /* Start screen */
+  .start-box{text-align:center; padding:10px 0 4px;}
+.page-water .droplet{font-size:50px; margin-bottom:6px;}
+.page-water /* Level intro */
+  .level-card{
+    background:#fff; border-radius:14px; padding:22px; text-align:center;
+    box-shadow:0 4px 14px rgba(0,0,0,0.08);
+  }
+.page-water .level-card h2{margin-top:0; color:var(--deep);}
+.page-water /* Memory grid */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    perspective:800px;
+  }
+.page-water .mcard{
+    position:relative;
+    height:120px;
+    cursor:pointer;
+  }
+.page-water .mcard-inner{
+    position:relative; width:100%; height:100%;
+    transition:transform .5s;
+    transform-style:preserve-3d;
+  }
+.page-water .mcard.flipped .mcard-inner, .page-water .mcard.matched .mcard-inner{
+    transform:rotateY(180deg);
+  }
+.page-water .face{
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+    padding:8px;
+    font-size:12.5px;
+    backface-visibility:hidden;
+    box-shadow:0 3px 8px rgba(0,0,0,0.15);
+    line-height:1.3;
+  }
+.page-water .face-back{
+    background:linear-gradient(135deg,var(--mid),var(--accent));
+    color:#fff;
+    font-size:28px;
+    font-weight:700;
+  }
+.page-water .face-front{
+    background:var(--card);
+    color:#0a2a3d;
+    transform:rotateY(180deg);
+    font-weight:600;
+    border:2px solid #cfe9f0;
+  }
+.page-water .mcard.term .face-front{font-size:14px; font-weight:700; color:var(--mid);}
+.page-water .mcard.matched .face-front{
+    background:#e5f7ec;
+    border-color:var(--good);
+    color:#1f6e46;
+  }
+.page-water .mcard.wrong .face-front{
+    background:#fdeceb;
+    border-color:var(--bad);
+  }
+.page-water /* Quiz */
+  .quiz-q{
+    background:#fff; border-radius:14px; padding:22px; box-shadow:0 4px 14px rgba(0,0,0,0.08);
+  }
+.page-water .quiz-q h3{margin-top:0; color:var(--deep); font-size:17px; line-height:1.4;}
+.page-water .options{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px;}
+.page-water .opt-btn{
+    background:#f2f9fb; border:2px solid #cfe9f0; border-radius:10px;
+    padding:12px 14px; text-align:left; cursor:pointer; font-size:14px; color:#0a2a3d;
+  }
+.page-water .opt-btn:hover{border-color:var(--accent);}
+.page-water .opt-btn.correct{background:#e5f7ec; border-color:var(--good); color:#1f6e46; font-weight:700;}
+.page-water .opt-btn.incorrect{background:#fdeceb; border-color:var(--bad); color:#8a2d20; font-weight:700;}
+.page-water .opt-btn:disabled{cursor:default;}
+.page-water /* Results */
+  .results{text-align:center;}
+.page-water .grade{
+    font-size:56px; font-weight:800; color:var(--gold); margin:8px 0;
+  }
+.page-water .stat-row{display:flex; justify-content:center; gap:30px; margin:18px 0; flex-wrap:wrap;}
+.page-water .stat{background:#fff; border-radius:12px; padding:14px 20px; min-width:110px; box-shadow:0 3px 10px rgba(0,0,0,0.08);}
+.page-water .stat b{display:block; font-size:22px; color:var(--deep);}
+.page-water .stat span{font-size:12px; color:#5c7c8f;}
+.page-water footer.note{margin-top:16px; font-size:12px; color:#557;}
+@media(max-width:560px){ .page-water .grid{grid-template-columns:repeat(3,1fr);}.page-water .options{grid-template-columns:1fr;} }
+.page-water .hub-link{
+    position:absolute; top:14px; left:18px; font-size:13px; font-weight:600;
+    color:var(--mid); text-decoration:none; z-index:2;
+  }
+.page-water .hub-link:hover{text-decoration:underline;}
+.page-macromolecules{
+    --deep:#0e4d3c;
+    --mid:#1a8064;
+    --accent:#3fc79a;
+    --light:#e2f7ef;
+    --card:#ffffff;
+    --good:#2f9e63;
+    --bad:#d6533c;
+    --gold:#e0a52b;
+  
+  background:linear-gradient(160deg,#0e4d3c,#1a8064 55%,#3fc79a);
+  color:#0a2a1d;
+  font-family:'Segoe UI', Verdana, sans-serif;
+  min-height:100vh; width:100%; padding:20px; box-sizing:border-box;
+}
+.page-macromolecules .app{
+    width:100%; max-width:920px;
+    background:var(--light);
+    border-radius:18px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.35);
+    padding:26px 30px 32px;
+    position:relative; overflow:hidden;
+  }
+.page-macromolecules .hub-link{position:absolute; top:14px; left:18px; font-size:13px; font-weight:600; color:var(--mid); text-decoration:none;}
+.page-macromolecules .hub-link:hover{text-decoration:underline;}
+.page-macromolecules h1{margin:0 0 4px; font-size:26px; color:var(--deep);}
+.page-macromolecules .subtitle{margin:0 0 18px; color:#396a58; font-size:14px;}
+.page-macromolecules .hud{display:flex; flex-wrap:wrap; gap:10px 18px; margin-bottom:16px; font-size:14px; color:var(--deep); font-weight:600;}
+.page-macromolecules .hud span.tag{background:#fff; padding:5px 12px; border-radius:20px; box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.page-macromolecules .progress-bar{height:8px; background:#c9ecdd; border-radius:6px; overflow:hidden; margin-bottom:20px;}
+.page-macromolecules .progress-fill{height:100%; background:linear-gradient(90deg,var(--accent),var(--good)); width:0%; transition:width .4s ease;}
+.page-macromolecules .screen{display:none;}
+.page-macromolecules .screen.active{display:block;}
+.page-macromolecules .btn{background:var(--mid); color:#fff; border:none; padding:12px 22px; font-size:15px; font-weight:600; border-radius:10px; cursor:pointer; transition:transform .15s, background .15s;}
+.page-macromolecules .btn:hover{background:var(--deep); transform:translateY(-1px);}
+.page-macromolecules .btn.secondary{background:#fff; color:var(--mid); border:2px solid var(--mid);}
+.page-macromolecules .btn:disabled{opacity:.5; cursor:not-allowed;}
+.page-macromolecules ul.rules{padding-left:20px; color:#2c5445; line-height:1.6; font-size:14px;}
+.page-macromolecules .start-box{text-align:center; padding:10px 0 4px;}
+.page-macromolecules .droplet{font-size:50px; margin-bottom:6px;}
+.page-macromolecules .level-card{background:#fff; border-radius:14px; padding:22px; text-align:center; box-shadow:0 4px 14px rgba(0,0,0,0.08);}
+.page-macromolecules .level-card h2{margin-top:0; color:var(--deep);}
+.page-macromolecules .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; perspective:800px;}
+.page-macromolecules .mcard{position:relative; height:120px; cursor:pointer;}
+.page-macromolecules .mcard-inner{position:relative; width:100%; height:100%; transition:transform .5s; transform-style:preserve-3d;}
+.page-macromolecules .mcard.flipped .mcard-inner, .page-macromolecules .mcard.matched .mcard-inner{transform:rotateY(180deg);}
+.page-macromolecules .face{position:absolute; top:0; left:0; width:100%; height:100%; border-radius:10px; display:flex; align-items:center; justify-content:center; text-align:center; padding:8px; font-size:12.5px; backface-visibility:hidden; box-shadow:0 3px 8px rgba(0,0,0,0.15); line-height:1.3;}
+.page-macromolecules .face-back{background:linear-gradient(135deg,var(--mid),var(--accent)); color:#fff; font-size:28px; font-weight:700;}
+.page-macromolecules .face-front{background:var(--card); color:#0a2a1d; transform:rotateY(180deg); font-weight:600; border:2px solid #cdeee0;}
+.page-macromolecules .mcard.term .face-front{font-size:14px; font-weight:700; color:var(--mid);}
+.page-macromolecules .mcard.matched .face-front{background:#e5f7ec; border-color:var(--good); color:#1f6e46;}
+.page-macromolecules .mcard.wrong .face-front{background:#fdeceb; border-color:var(--bad);}
+.page-macromolecules .quiz-q{background:#fff; border-radius:14px; padding:22px; box-shadow:0 4px 14px rgba(0,0,0,0.08);}
+.page-macromolecules .quiz-q h3{margin-top:0; color:var(--deep); font-size:17px; line-height:1.4;}
+.page-macromolecules .options{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px;}
+.page-macromolecules .opt-btn{background:#eafaf3; border:2px solid #cdeee0; border-radius:10px; padding:12px 14px; text-align:left; cursor:pointer; font-size:14px; color:#0a2a1d;}
+.page-macromolecules .opt-btn:hover{border-color:var(--accent);}
+.page-macromolecules .opt-btn.correct{background:#e5f7ec; border-color:var(--good); color:#1f6e46; font-weight:700;}
+.page-macromolecules .opt-btn.incorrect{background:#fdeceb; border-color:var(--bad); color:#8a2d20; font-weight:700;}
+.page-macromolecules .opt-btn:disabled{cursor:default;}
+.page-macromolecules .results{text-align:center;}
+.page-macromolecules .grade{font-size:56px; font-weight:800; color:var(--gold); margin:8px 0;}
+.page-macromolecules .stat-row{display:flex; justify-content:center; gap:30px; margin:18px 0; flex-wrap:wrap;}
+.page-macromolecules .stat{background:#fff; border-radius:12px; padding:14px 20px; min-width:110px; box-shadow:0 3px 10px rgba(0,0,0,0.08);}
+.page-macromolecules .stat b{display:block; font-size:22px; color:var(--deep);}
+.page-macromolecules .stat span{font-size:12px; color:#5c8f7c;}
+.page-macromolecules footer.note{margin-top:16px; font-size:12px; color:#557;}
+@media(max-width:560px){ .page-macromolecules .grid{grid-template-columns:repeat(3,1fr);}.page-macromolecules .options{grid-template-columns:1fr;} }
+.page-carbslipids{
+    --deep:#8a4b06;
+    --mid:#c98317;
+    --accent:#f0b545;
+    --light:#fdf1dc;
+    --card:#ffffff;
+    --good:#2f9e63;
+    --bad:#d6533c;
+    --gold:#e0a52b;
+  
+  background:linear-gradient(160deg,#8a4b06,#c98317 55%,#f0b545);
+  color:#3a2a0e;
+  font-family:'Segoe UI', Verdana, sans-serif;
+  min-height:100vh; width:100%; padding:20px; box-sizing:border-box;
+}
+.page-carbslipids .app{
+    width:100%; max-width:960px;
+    background:var(--light);
+    border-radius:18px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.35);
+    padding:26px 30px 32px;
+    position:relative;
+  }
+.page-carbslipids .hub-link{position:absolute; top:14px; left:18px; font-size:13px; font-weight:600; color:var(--mid); text-decoration:none;}
+.page-carbslipids .hub-link:hover{text-decoration:underline;}
+.page-carbslipids h1{margin:0 0 4px; font-size:26px; color:var(--deep);}
+.page-carbslipids .subtitle{margin:0 0 18px; color:#7a5a20; font-size:14px;}
+.page-carbslipids .hud{display:flex; flex-wrap:wrap; gap:10px 18px; margin-bottom:16px; font-size:14px; color:var(--deep); font-weight:600;}
+.page-carbslipids .hud span.tag{background:#fff; padding:5px 12px; border-radius:20px; box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.page-carbslipids .progress-bar{height:8px; background:#f6e2b8; border-radius:6px; overflow:hidden; margin-bottom:20px;}
+.page-carbslipids .progress-fill{height:100%; background:linear-gradient(90deg,var(--accent),var(--good)); width:0%; transition:width .4s ease;}
+.page-carbslipids .screen{display:none;}
+.page-carbslipids .screen.active{display:block;}
+.page-carbslipids .btn{background:var(--mid); color:#fff; border:none; padding:12px 22px; font-size:15px; font-weight:600; border-radius:10px; cursor:pointer; transition:transform .15s, background .15s;}
+.page-carbslipids .btn:hover{background:var(--deep); transform:translateY(-1px);}
+.page-carbslipids .btn.secondary{background:#fff; color:var(--mid); border:2px solid var(--mid);}
+.page-carbslipids .btn:disabled{opacity:.5; cursor:not-allowed;}
+.page-carbslipids ul.rules{padding-left:20px; color:#5c4318; line-height:1.6; font-size:14px;}
+.page-carbslipids .start-box{text-align:center; padding:10px 0 4px;}
+.page-carbslipids .icon-big{font-size:50px; margin-bottom:6px;}
+.page-carbslipids .level-card{background:#fff; border-radius:14px; padding:22px; text-align:center; box-shadow:0 4px 14px rgba(0,0,0,0.08);}
+.page-carbslipids .level-card h2{margin-top:0; color:var(--deep);}
+.page-carbslipids .sort-card{
+    background:#fff; border-radius:16px; padding:28px 24px; text-align:center;
+    box-shadow:0 6px 18px rgba(0,0,0,0.12); max-width:600px; margin:0 auto 20px;
+    min-height:90px; display:flex; align-items:center; justify-content:center;
+  }
+.page-carbslipids .sort-card p{font-size:16px; line-height:1.5; color:#2c1e0e; margin:0;}
+.page-carbslipids .bin-row{display:grid; gap:10px;}
+.page-carbslipids .bin-btn{
+    border:2px solid transparent; border-radius:12px; padding:12px 8px; cursor:pointer;
+    font-size:13px; font-weight:700; color:#fff; text-align:center; line-height:1.3;
+  }
+.page-carbslipids .bin-btn:hover{transform:translateY(-2px); filter:brightness(1.05);}
+.page-carbslipids .bin-btn:disabled{opacity:.5; cursor:not-allowed;}
+.page-carbslipids .bin-btn.correct-flash{outline:4px solid #2f9e63; outline-offset:2px;}
+.page-carbslipids .bin-btn.incorrect-flash{outline:4px solid #d6533c; outline-offset:2px;}
+.page-carbslipids .feedback-line{text-align:center; margin-top:14px; font-size:14px; font-weight:600; min-height:20px;}
+.page-carbslipids .feedback-line.good{color:var(--good);}
+.page-carbslipids .feedback-line.bad{color:var(--bad);}
+.page-carbslipids .quiz-q{background:#fff; border-radius:14px; padding:22px; box-shadow:0 4px 14px rgba(0,0,0,0.08);}
+.page-carbslipids .quiz-q h3{margin-top:0; color:var(--deep); font-size:17px; line-height:1.4;}
+.page-carbslipids .options{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px;}
+.page-carbslipids .opt-btn{
+    background:#fdf1dc; border:2px solid #f6e2b8; border-radius:10px;
+    padding:12px 14px; text-align:left; cursor:pointer; font-size:14px; color:#3a2a0e;
+  }
+.page-carbslipids .opt-btn:hover{border-color:var(--accent);}
+.page-carbslipids .opt-btn.correct{background:#e5f7ec; border-color:var(--good); color:#1f6e46; font-weight:700;}
+.page-carbslipids .opt-btn.incorrect{background:#fdeceb; border-color:var(--bad); color:#8a2d20; font-weight:700;}
+.page-carbslipids .opt-btn:disabled{cursor:default;}
+.page-carbslipids .results{text-align:center;}
+.page-carbslipids .grade{font-size:56px; font-weight:800; color:var(--gold); margin:8px 0;}
+.page-carbslipids .stat-row{display:flex; justify-content:center; gap:30px; margin:18px 0; flex-wrap:wrap;}
+.page-carbslipids .stat{background:#fff; border-radius:12px; padding:14px 20px; min-width:110px; box-shadow:0 3px 10px rgba(0,0,0,0.08);}
+.page-carbslipids .stat b{display:block; font-size:22px; color:var(--deep);}
+.page-carbslipids .stat span{font-size:12px; color:#7a5a20;}
+.page-carbslipids footer.note{margin-top:16px; font-size:12px; color:#7a5a20;}
+@media(max-width:700px){ .page-carbslipids .options{grid-template-columns:1fr;} }
+.page-protein{
+    --deep:#5c1a4a;
+    --mid:#9c3a7c;
+    --accent:#d16fb0;
+    --light:#f9e8f2;
+    --card:#ffffff;
+    --good:#2f9e63;
+    --bad:#d6533c;
+    --gold:#e0a52b;
+  
+  background:linear-gradient(160deg,#5c1a4a,#9c3a7c 55%,#d16fb0);
+  color:#3a1230;
+  font-family:'Segoe UI', Verdana, sans-serif;
+  min-height:100vh; width:100%; padding:20px; box-sizing:border-box;
+}
+.page-protein .app{
+    width:100%; max-width:960px;
+    background:var(--light);
+    border-radius:18px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.35);
+    padding:26px 30px 32px;
+    position:relative;
+  }
+.page-protein .hub-link{position:absolute; top:14px; left:18px; font-size:13px; font-weight:600; color:var(--mid); text-decoration:none;}
+.page-protein .hub-link:hover{text-decoration:underline;}
+.page-protein h1{margin:0 0 4px; font-size:26px; color:var(--deep);}
+.page-protein .subtitle{margin:0 0 18px; color:#7a4068; font-size:14px;}
+.page-protein .hud{display:flex; flex-wrap:wrap; gap:10px 18px; margin-bottom:16px; font-size:14px; color:var(--deep); font-weight:600;}
+.page-protein .hud span.tag{background:#fff; padding:5px 12px; border-radius:20px; box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.page-protein .progress-bar{height:8px; background:#f0d0e6; border-radius:6px; overflow:hidden; margin-bottom:20px;}
+.page-protein .progress-fill{height:100%; background:linear-gradient(90deg,var(--accent),var(--good)); width:0%; transition:width .4s ease;}
+.page-protein .screen{display:none;}
+.page-protein .screen.active{display:block;}
+.page-protein .btn{background:var(--mid); color:#fff; border:none; padding:12px 22px; font-size:15px; font-weight:600; border-radius:10px; cursor:pointer; transition:transform .15s, background .15s;}
+.page-protein .btn:hover{background:var(--deep); transform:translateY(-1px);}
+.page-protein .btn.secondary{background:#fff; color:var(--mid); border:2px solid var(--mid);}
+.page-protein .btn:disabled{opacity:.5; cursor:not-allowed;}
+.page-protein ul.rules{padding-left:20px; color:#5c2a4c; line-height:1.6; font-size:14px;}
+.page-protein .start-box{text-align:center; padding:10px 0 4px;}
+.page-protein .icon-big{font-size:50px; margin-bottom:6px;}
+.page-protein .level-card{background:#fff; border-radius:14px; padding:22px; text-align:center; box-shadow:0 4px 14px rgba(0,0,0,0.08);}
+.page-protein .level-card h2{margin-top:0; color:var(--deep);}
+.page-protein /* Sort round */
+  .sort-card{
+    background:#fff; border-radius:16px; padding:28px 24px; text-align:center;
+    box-shadow:0 6px 18px rgba(0,0,0,0.12); max-width:600px; margin:0 auto 20px;
+    min-height:90px; display:flex; align-items:center; justify-content:center;
+  }
+.page-protein .sort-card p{font-size:16px; line-height:1.5; color:#2c1424; margin:0;}
+.page-protein .bin-row{display:grid; gap:10px;}
+.page-protein .bin-btn{
+    border:2px solid transparent; border-radius:12px; padding:12px 8px; cursor:pointer;
+    font-size:13px; font-weight:700; color:#fff; text-align:center; line-height:1.3;
+  }
+.page-protein .bin-btn:hover{transform:translateY(-2px); filter:brightness(1.05);}
+.page-protein .bin-btn:disabled{opacity:.5; cursor:not-allowed;}
+.page-protein .bin-btn.correct-flash{outline:4px solid #2f9e63; outline-offset:2px;}
+.page-protein .bin-btn.incorrect-flash{outline:4px solid #d6533c; outline-offset:2px;}
+.page-protein .feedback-line{text-align:center; margin-top:14px; font-size:14px; font-weight:600; min-height:20px;}
+.page-protein .feedback-line.good{color:var(--good);}
+.page-protein .feedback-line.bad{color:var(--bad);}
+.page-protein /* Memory match round */
+  .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; perspective:800px;}
+.page-protein .mcard{position:relative; height:120px; cursor:pointer;}
+.page-protein .mcard-inner{position:relative; width:100%; height:100%; transition:transform .5s; transform-style:preserve-3d;}
+.page-protein .mcard.flipped .mcard-inner, .page-protein .mcard.matched .mcard-inner{transform:rotateY(180deg);}
+.page-protein .face{position:absolute; top:0; left:0; width:100%; height:100%; border-radius:10px; display:flex; align-items:center; justify-content:center; text-align:center; padding:8px; font-size:12.5px; backface-visibility:hidden; box-shadow:0 3px 8px rgba(0,0,0,0.15); line-height:1.3;}
+.page-protein .face-back{background:linear-gradient(135deg,var(--mid),var(--accent)); color:#fff; font-size:28px; font-weight:700;}
+.page-protein .face-front{background:var(--card); color:#3a1230; transform:rotateY(180deg); font-weight:600; border:2px solid #f0d0e6;}
+.page-protein .mcard.term .face-front{font-size:14px; font-weight:700; color:var(--mid);}
+.page-protein .mcard.matched .face-front{background:#e5f7ec; border-color:var(--good); color:#1f6e46;}
+.page-protein .mcard.wrong .face-front{background:#fdeceb; border-color:var(--bad);}
+.page-protein .quiz-q{background:#fff; border-radius:14px; padding:22px; box-shadow:0 4px 14px rgba(0,0,0,0.08);}
+.page-protein .quiz-q h3{margin-top:0; color:var(--deep); font-size:17px; line-height:1.4;}
+.page-protein .options{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px;}
+.page-protein .opt-btn{
+    background:#f9e8f2; border:2px solid #f0d0e6; border-radius:10px;
+    padding:12px 14px; text-align:left; cursor:pointer; font-size:14px; color:#3a1230;
+  }
+.page-protein .opt-btn:hover{border-color:var(--accent);}
+.page-protein .opt-btn.correct{background:#e5f7ec; border-color:var(--good); color:#1f6e46; font-weight:700;}
+.page-protein .opt-btn.incorrect{background:#fdeceb; border-color:var(--bad); color:#8a2d20; font-weight:700;}
+.page-protein .opt-btn:disabled{cursor:default;}
+.page-protein .results{text-align:center;}
+.page-protein .grade{font-size:56px; font-weight:800; color:var(--gold); margin:8px 0;}
+.page-protein .stat-row{display:flex; justify-content:center; gap:30px; margin:18px 0; flex-wrap:wrap;}
+.page-protein .stat{background:#fff; border-radius:12px; padding:14px 20px; min-width:110px; box-shadow:0 3px 10px rgba(0,0,0,0.08);}
+.page-protein .stat b{display:block; font-size:22px; color:var(--deep);}
+.page-protein .stat span{font-size:12px; color:#7a4068;}
+.page-protein footer.note{margin-top:16px; font-size:12px; color:#7a4068;}
+@media(max-width:700px){ .page-protein .grid{grid-template-columns:repeat(3,1fr);}.page-protein .options{grid-template-columns:1fr;} }
+.page-nucleic{
+    --deep:#0e2f5c;
+    --mid:#1c5a9c;
+    --accent:#4f93d1;
+    --light:#e6eefb;
+    --card:#ffffff;
+    --good:#2f9e63;
+    --bad:#d6533c;
+    --gold:#e0a52b;
+  
+  background:linear-gradient(160deg,#0e2f5c,#1c5a9c 55%,#4f93d1);
+  color:#12203a;
+  font-family:'Segoe UI', Verdana, sans-serif;
+  min-height:100vh; width:100%; padding:20px; box-sizing:border-box;
+}
+.page-nucleic .app{
+    width:100%; max-width:960px;
+    background:var(--light);
+    border-radius:18px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.35);
+    padding:26px 30px 32px;
+    position:relative;
+  }
+.page-nucleic .hub-link{position:absolute; top:14px; left:18px; font-size:13px; font-weight:600; color:var(--mid); text-decoration:none;}
+.page-nucleic .hub-link:hover{text-decoration:underline;}
+.page-nucleic h1{margin:0 0 4px; font-size:26px; color:var(--deep);}
+.page-nucleic .subtitle{margin:0 0 18px; color:#3a5a80; font-size:14px;}
+.page-nucleic .hud{display:flex; flex-wrap:wrap; gap:10px 18px; margin-bottom:16px; font-size:14px; color:var(--deep); font-weight:600;}
+.page-nucleic .hud span.tag{background:#fff; padding:5px 12px; border-radius:20px; box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.page-nucleic .progress-bar{height:8px; background:#cddef4; border-radius:6px; overflow:hidden; margin-bottom:20px;}
+.page-nucleic .progress-fill{height:100%; background:linear-gradient(90deg,var(--accent),var(--good)); width:0%; transition:width .4s ease;}
+.page-nucleic .screen{display:none;}
+.page-nucleic .screen.active{display:block;}
+.page-nucleic .btn{background:var(--mid); color:#fff; border:none; padding:12px 22px; font-size:15px; font-weight:600; border-radius:10px; cursor:pointer; transition:transform .15s, background .15s;}
+.page-nucleic .btn:hover{background:var(--deep); transform:translateY(-1px);}
+.page-nucleic .btn.secondary{background:#fff; color:var(--mid); border:2px solid var(--mid);}
+.page-nucleic .btn:disabled{opacity:.5; cursor:not-allowed;}
+.page-nucleic ul.rules{padding-left:20px; color:#2c4666; line-height:1.6; font-size:14px;}
+.page-nucleic .start-box{text-align:center; padding:10px 0 4px;}
+.page-nucleic .icon-big{font-size:50px; margin-bottom:6px;}
+.page-nucleic .level-card{background:#fff; border-radius:14px; padding:22px; text-align:center; box-shadow:0 4px 14px rgba(0,0,0,0.08);}
+.page-nucleic .level-card h2{margin-top:0; color:var(--deep);}
+.page-nucleic /* Sort round */
+  .sort-card{
+    background:#fff; border-radius:16px; padding:28px 24px; text-align:center;
+    box-shadow:0 6px 18px rgba(0,0,0,0.12); max-width:600px; margin:0 auto 20px;
+    min-height:90px; display:flex; align-items:center; justify-content:center;
+  }
+.page-nucleic .sort-card p{font-size:16px; line-height:1.5; color:#12203a; margin:0;}
+.page-nucleic .bin-row{display:grid; gap:10px;}
+.page-nucleic .bin-btn{
+    border:2px solid transparent; border-radius:12px; padding:12px 8px; cursor:pointer;
+    font-size:13px; font-weight:700; color:#fff; text-align:center; line-height:1.3;
+  }
+.page-nucleic .bin-btn:hover{transform:translateY(-2px); filter:brightness(1.05);}
+.page-nucleic .bin-btn:disabled{opacity:.5; cursor:not-allowed;}
+.page-nucleic .bin-btn.correct-flash{outline:4px solid #2f9e63; outline-offset:2px;}
+.page-nucleic .bin-btn.incorrect-flash{outline:4px solid #d6533c; outline-offset:2px;}
+.page-nucleic .feedback-line{text-align:center; margin-top:14px; font-size:14px; font-weight:600; min-height:20px;}
+.page-nucleic .feedback-line.good{color:var(--good);}
+.page-nucleic .feedback-line.bad{color:var(--bad);}
+.page-nucleic /* Memory match round */
+  .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; perspective:800px;}
+.page-nucleic .mcard{position:relative; height:120px; cursor:pointer;}
+.page-nucleic .mcard-inner{position:relative; width:100%; height:100%; transition:transform .5s; transform-style:preserve-3d;}
+.page-nucleic .mcard.flipped .mcard-inner, .page-nucleic .mcard.matched .mcard-inner{transform:rotateY(180deg);}
+.page-nucleic .face{position:absolute; top:0; left:0; width:100%; height:100%; border-radius:10px; display:flex; align-items:center; justify-content:center; text-align:center; padding:8px; font-size:12.5px; backface-visibility:hidden; box-shadow:0 3px 8px rgba(0,0,0,0.15); line-height:1.3;}
+.page-nucleic .face-back{background:linear-gradient(135deg,var(--mid),var(--accent)); color:#fff; font-size:28px; font-weight:700;}
+.page-nucleic .face-front{background:var(--card); color:#12203a; transform:rotateY(180deg); font-weight:600; border:2px solid #cddef4;}
+.page-nucleic .mcard.term .face-front{font-size:14px; font-weight:700; color:var(--mid);}
+.page-nucleic .mcard.matched .face-front{background:#e5f7ec; border-color:var(--good); color:#1f6e46;}
+.page-nucleic .mcard.wrong .face-front{background:#fdeceb; border-color:var(--bad);}
+.page-nucleic .quiz-q{background:#fff; border-radius:14px; padding:22px; box-shadow:0 4px 14px rgba(0,0,0,0.08);}
+.page-nucleic .quiz-q h3{margin-top:0; color:var(--deep); font-size:17px; line-height:1.4;}
+.page-nucleic .options{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px;}
+.page-nucleic .opt-btn{
+    background:#e6eefb; border:2px solid #cddef4; border-radius:10px;
+    padding:12px 14px; text-align:left; cursor:pointer; font-size:14px; color:#12203a;
+  }
+.page-nucleic .opt-btn:hover{border-color:var(--accent);}
+.page-nucleic .opt-btn.correct{background:#e5f7ec; border-color:var(--good); color:#1f6e46; font-weight:700;}
+.page-nucleic .opt-btn.incorrect{background:#fdeceb; border-color:var(--bad); color:#8a2d20; font-weight:700;}
+.page-nucleic .opt-btn:disabled{cursor:default;}
+.page-nucleic .results{text-align:center;}
+.page-nucleic .grade{font-size:56px; font-weight:800; color:var(--gold); margin:8px 0;}
+.page-nucleic .stat-row{display:flex; justify-content:center; gap:30px; margin:18px 0; flex-wrap:wrap;}
+.page-nucleic .stat{background:#fff; border-radius:12px; padding:14px 20px; min-width:110px; box-shadow:0 3px 10px rgba(0,0,0,0.08);}
+.page-nucleic .stat b{display:block; font-size:22px; color:var(--deep);}
+.page-nucleic .stat span{font-size:12px; color:#3a5a80;}
+.page-nucleic footer.note{margin-top:16px; font-size:12px; color:#3a5a80;}
+@media(max-width:700px){ .page-nucleic .grid{grid-template-columns:repeat(3,1fr);}.page-nucleic .options{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<div class="page page-hub active" id="page-hub">
+<div class="wrap">
+  <header>
+    <h1>🧬 AP Bio Game Hub</h1>
+    <p>Quick review games built around each chapter's vocab and key concepts. Pick a game below to get started.</p>
+  </header>
+
+  <div class="chapter">
+    <h2>Chapter 2 — The Chemistry of Life</h2>
+    <p class="sub">Atoms → Bonds → Water &amp; the Properties of Life</p>
+    <div class="cards">
+      <a class="card atoms" href="#" onclick="showPage('atoms'); return false;">
+        <div class="icon">⚛️</div>
+        <h3>Build-an-Atom</h3>
+        <p>Build target atoms and isotopes from protons, neutrons, and electrons. Learn atomic number, mass number, valence shells, and stability.</p>
+        <span class="play">Play →</span>
+      </a>
+      <a class="card bonding" href="#" onclick="showPage('bonding'); return false;">
+        <div class="icon">🔗</div>
+        <h3>Bond Sort</h3>
+        <p>Sort real bonding scenarios into ionic, polar covalent, nonpolar covalent, hydrogen bond, or van der Waals categories.</p>
+        <span class="play">Play →</span>
+      </a>
+      <a class="card water" href="#" onclick="showPage('water'); return false;">
+        <div class="icon">💧</div>
+        <h3>Water &amp; pH Match</h3>
+        <p>Memory-match all 30 vocab terms on water's properties, solutions, and acids/bases — plus a key-concepts bonus round.</p>
+        <span class="play">Play →</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <h2>Chapter 3 — Biological Molecules</h2>
+    <p class="sub">Macromolecules → Carbohydrates &amp; Lipids → Proteins → Nucleic Acids</p>
+    <div class="cards">
+      <a class="card macro" href="#" onclick="showPage('macromolecules'); return false;">
+        <div class="icon">🧬</div>
+        <h3>Macromolecule Basics</h3>
+        <p>Memory-match monomers, polymers, dehydration synthesis vs. hydrolysis, and the four classes of macromolecules — plus a bonus round on synthesis &amp; breakdown.</p>
+        <span class="play">Play →</span>
+      </a>
+      <a class="card carbslipids" href="#" onclick="showPage('carbslipids'); return false;">
+        <div class="icon">🍞🧈</div>
+        <h3>Carbs &amp; Lipids Sort</h3>
+        <p>Sort sugars into mono/di/polysaccharides, then fats into saturated, unsaturated, phospholipid, or steroid — plus a bonus round on alpha/beta glucose and trans fats.</p>
+        <span class="play">Play →</span>
+      </a>
+      <a class="card protein" href="#" onclick="showPage('protein'); return false;">
+        <div class="icon">🧵</div>
+        <h3>Protein Structure Stacker</h3>
+        <p>Sort descriptions into primary/secondary/tertiary/quaternary structure, then match the 8 protein function types — plus a bonus round on denaturation &amp; sickle-cell disease.</p>
+        <span class="play">Play →</span>
+      </a>
+      <a class="card nucleic" href="#" onclick="showPage('nucleic'); return false;">
+        <div class="icon">🧬</div>
+        <h3>Nucleic Acid Builder</h3>
+        <p>Memory-match DNA/RNA vocab, then sort bases into their correct complementary pairs — plus a bonus round on DNA vs. RNA and the central dogma.</p>
+        <span class="play">Play →</span>
+      </a>
+    </div>
+    <div class="coming-soon">More chapters coming soon</div>
+  </div>
+
+  <footer>AP Biology · Chemistry of Life review games</footer>
+</div>
+</div>
+<div class="page page-atoms" id="page-atoms">
+<div class="app">
+  <a class="hub-link" href="#" onclick="showPage('hub'); return false;">&larr; Chapter Hub</a>
+
+  <!-- START -->
+  <div class="screen active" id="atoms-screen-start">
+    <div class="start-box">
+      <div class="icon-big">⚛️</div>
+      <h1>Build-an-Atom</h1>
+      <p class="subtitle">An AP Biology review game — Atomic Structure</p>
+      <div style="text-align:left; max-width:560px; margin:0 auto;">
+        <ul class="rules">
+          <li>Each round gives you a target atom (or isotope) to build.</li>
+          <li>Use the +/- steppers to add protons and neutrons to the nucleus.</li>
+          <li>Add electrons one at a time — they'll automatically fill the innermost open shell first, just like real atoms.</li>
+          <li>Hit "Check Atom" when you think you've matched the target. Fix any mismatches and try again.</li>
+          <li>After 8 rounds, a bonus concept quiz tests what you learned.</li>
+        </ul>
+      </div>
+      <button class="btn" onclick="AtomsGame.startGame()">Start Game</button>
+    </div>
+  </div>
+
+  <!-- LEVEL INTRO -->
+  <div class="screen" id="atoms-screen-levelintro">
+    <div class="hud">
+      <span class="tag" id="atoms-hud-level"></span>
+      <span class="tag" id="atoms-hud-score">Score: 0</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="atoms-progress-fill"></div></div>
+    <div class="level-card">
+      <h2 id="atoms-li-title"></h2>
+      <p id="atoms-li-desc" style="color:#5a4270;"></p>
+      <button class="btn" onclick="AtomsGame.beginLevel()">Build This Atom</button>
+    </div>
+  </div>
+
+  <!-- BUILD SCREEN -->
+  <div class="screen" id="atoms-screen-build">
+    <div class="hud">
+      <span class="tag" id="atoms-hud-level2"></span>
+      <span class="tag" id="atoms-hud-score2">Score: 0</span>
+      <span class="tag" id="atoms-hud-attempts">Attempts: 0</span>
+      <span class="tag" id="atoms-hud-timer">Time: 0s</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="atoms-progress-fill2"></div></div>
+
+    <div class="build-wrap">
+      <div class="target-card">
+        <h3 id="atoms-target-name"></h3>
+        <p class="fact" id="atoms-target-fact"></p>
+        <div class="controls">
+          <div class="stepper">
+            <span class="label"><span class="dot p"></span>Protons</span>
+            <button onclick="AtomsGame.changeParticle('protons',-1)">−</button>
+            <span class="count" id="atoms-count-protons">0</span>
+            <button onclick="AtomsGame.changeParticle('protons',1)">+</button>
+          </div>
+          <div id="atoms-hint-protons"></div>
+          <div class="stepper">
+            <span class="label"><span class="dot n"></span>Neutrons</span>
+            <button onclick="AtomsGame.changeParticle('neutrons',-1)">−</button>
+            <span class="count" id="atoms-count-neutrons">0</span>
+            <button onclick="AtomsGame.changeParticle('neutrons',1)">+</button>
+          </div>
+          <div id="atoms-hint-neutrons"></div>
+          <div class="stepper">
+            <span class="label"><span class="dot e"></span>Electrons</span>
+            <button onclick="AtomsGame.changeParticle('electrons',-1)">−</button>
+            <span class="count" id="atoms-count-electrons">0</span>
+            <button onclick="AtomsGame.changeParticle('electrons',1)">+</button>
+          </div>
+          <div id="atoms-hint-electrons"></div>
+        </div>
+        <div class="check-row">
+          <button class="btn" onclick="AtomsGame.checkAtom()">Check Atom</button>
+        </div>
+      </div>
+      <div class="atom-visual" id="atoms-atom-visual">
+        <div class="nucleus" id="atoms-nucleus"></div>
+      </div>
+    </div>
+
+    <div class="report" id="atoms-report" style="display:none;"></div>
+  </div>
+
+  <!-- BONUS QUIZ -->
+  <div class="screen" id="atoms-screen-quiz">
+    <div class="hud">
+      <span class="tag">Bonus: Atomic Structure</span>
+      <span class="tag" id="atoms-hud-score3">Score: 0</span>
+      <span class="tag" id="atoms-hud-qnum">Question 1</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="atoms-progress-fill3"></div></div>
+    <div class="quiz-q">
+      <h3 id="atoms-q-text"></h3>
+      <div class="options" id="atoms-q-options"></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="screen" id="atoms-screen-results">
+    <div class="results">
+      <h1>Round Complete!</h1>
+      <div class="grade" id="atoms-final-grade">A</div>
+      <div class="stat-row">
+        <div class="stat"><b id="atoms-stat-score">0</b><span>Total Score</span></div>
+        <div class="stat"><b id="atoms-stat-build-acc">0%</b><span>Build Accuracy</span></div>
+        <div class="stat"><b id="atoms-stat-quiz-acc">0%</b><span>Quiz Accuracy</span></div>
+        <div class="stat"><b id="atoms-stat-time">0s</b><span>Total Time</span></div>
+      </div>
+      <button class="btn" onclick="AtomsGame.restart()">Play Again</button>
+      <footer class="note">8 atoms &amp; isotopes · 8 concept questions · AP Bio: Atomic Structure review</footer>
+    </div>
+  </div>
+
+</div>
+</div>
+<div class="page page-bonding" id="page-bonding">
+<div class="app">
+  <a class="hub-link" href="#" onclick="showPage('hub'); return false;">&larr; Chapter Hub</a>
+
+  <!-- START -->
+  <div class="screen active" id="bonding-screen-start">
+    <div class="start-box">
+      <div class="icon-big">🔗</div>
+      <h1>Bond Sort</h1>
+      <p class="subtitle">An AP Biology review game — Chemical Bonds &amp; Weak Interactions</p>
+      <div style="text-align:left; max-width:560px; margin:0 auto;">
+        <ul class="rules">
+          <li>You'll see 12 scenario cards, one at a time.</li>
+          <li>Read each one and sort it into the correct bond/interaction category.</li>
+          <li>Categories: Ionic bond, Nonpolar covalent, Polar covalent, Hydrogen bond, Van der Waals.</li>
+          <li>After sorting all 12, a bonus quiz covers electronegativity and bonding concepts.</li>
+        </ul>
+      </div>
+      <button class="btn" onclick="BondingGame.startGame()">Start Game</button>
+    </div>
+  </div>
+
+  <!-- SORTING GAME -->
+  <div class="screen" id="bonding-screen-sort">
+    <div class="hud">
+      <span class="tag" id="bonding-hud-progress">Card 1/12</span>
+      <span class="tag" id="bonding-hud-score">Score: 0</span>
+      <span class="tag" id="bonding-hud-timer">Time: 0s</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="bonding-progress-fill"></div></div>
+
+    <div class="legend">
+      <span class="chip" style="background:var(--ionic);">Ionic</span>
+      <span class="chip" style="background:var(--nonpolar);">Nonpolar Covalent</span>
+      <span class="chip" style="background:var(--polar);">Polar Covalent</span>
+      <span class="chip" style="background:var(--hbond);">Hydrogen Bond</span>
+      <span class="chip" style="background:var(--vdw);">Van der Waals</span>
+    </div>
+
+    <div class="sort-card">
+      <p id="bonding-card-text"></p>
+    </div>
+
+    <div class="bin-row" id="bonding-bin-row">
+      <button class="bin-btn ionic" onclick="BondingGame.answerSort('ionic', this)">Ionic Bond</button>
+      <button class="bin-btn nonpolar" onclick="BondingGame.answerSort('nonpolar', this)">Nonpolar Covalent</button>
+      <button class="bin-btn polar" onclick="BondingGame.answerSort('polar', this)">Polar Covalent</button>
+      <button class="bin-btn hbond" onclick="BondingGame.answerSort('hbond', this)">Hydrogen Bond</button>
+      <button class="bin-btn vdw" onclick="BondingGame.answerSort('vdw', this)">Van der Waals</button>
+    </div>
+
+    <div class="feedback-line" id="bonding-feedback-line"></div>
+  </div>
+
+  <!-- BONUS QUIZ -->
+  <div class="screen" id="bonding-screen-quiz">
+    <div class="hud">
+      <span class="tag">Bonus: Bonding Concepts</span>
+      <span class="tag" id="bonding-hud-score3">Score: 0</span>
+      <span class="tag" id="bonding-hud-qnum">Question 1</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="bonding-progress-fill3"></div></div>
+    <div class="quiz-q">
+      <h3 id="bonding-q-text"></h3>
+      <div class="options" id="bonding-q-options"></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="screen" id="bonding-screen-results">
+    <div class="results">
+      <h1>Round Complete!</h1>
+      <div class="grade" id="bonding-final-grade">A</div>
+      <div class="stat-row">
+        <div class="stat"><b id="bonding-stat-score">0</b><span>Total Score</span></div>
+        <div class="stat"><b id="bonding-stat-sort-acc">0%</b><span>Sorting Accuracy</span></div>
+        <div class="stat"><b id="bonding-stat-quiz-acc">0%</b><span>Quiz Accuracy</span></div>
+        <div class="stat"><b id="bonding-stat-time">0s</b><span>Total Time</span></div>
+      </div>
+      <button class="btn" onclick="BondingGame.restart()">Play Again</button>
+      <footer class="note">12 bonding scenarios · 6 concept questions · AP Bio: Chemical Bonds review</footer>
+    </div>
+  </div>
+
+</div>
+</div>
+<div class="page page-water" id="page-water">
+<div class="app">
+  <a class="hub-link" href="#" onclick="showPage('hub'); return false;">&larr; Chapter Hub</a>
+
+  <!-- START -->
+  <div class="screen active" id="water-screen-start">
+    <div class="start-box">
+      <div class="droplet">💧</div>
+      <h1>Water &amp; pH Match</h1>
+      <p class="subtitle">An AP Biology review game — Properties of Water &amp; Acids/Bases</p>
+      <div style="text-align:left; max-width:520px; margin:0 auto;">
+        <ul class="rules">
+          <li>5 memory-match rounds cover all 30 vocab terms, 6 pairs per round.</li>
+          <li>Flip two cards at a time to find a term's matching definition.</li>
+          <li>After all rounds, a Bonus Concept Challenge (randomized multiple choice) tests the big ideas.</li>
+          <li>Fewer flips and fast time = higher score. Good luck!</li>
+        </ul>
+      </div>
+      <button class="btn" onclick="WaterGame.startGame()">Start Game</button>
+    </div>
+  </div>
+
+  <!-- LEVEL INTRO -->
+  <div class="screen" id="water-screen-levelintro">
+    <div class="hud">
+      <span class="tag" id="water-hud-level"></span>
+      <span class="tag" id="water-hud-score">Score: 0</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="water-progress-fill"></div></div>
+    <div class="level-card">
+      <h2 id="water-li-title"></h2>
+      <p id="water-li-desc" style="color:#3a6178;"></p>
+      <button class="btn" onclick="WaterGame.beginLevel()">Begin Round</button>
+    </div>
+  </div>
+
+  <!-- MEMORY GAME -->
+  <div class="screen" id="water-screen-game">
+    <div class="hud">
+      <span class="tag" id="water-hud-level2"></span>
+      <span class="tag" id="water-hud-score2">Score: 0</span>
+      <span class="tag" id="water-hud-flips">Flips: 0</span>
+      <span class="tag" id="water-hud-timer">Time: 0s</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="water-progress-fill2"></div></div>
+    <div class="grid" id="water-grid"></div>
+  </div>
+
+  <!-- BONUS QUIZ -->
+  <div class="screen" id="water-screen-quiz">
+    <div class="hud">
+      <span class="tag">Bonus: Key Concepts</span>
+      <span class="tag" id="water-hud-score3">Score: 0</span>
+      <span class="tag" id="water-hud-qnum">Question 1</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="water-progress-fill3"></div></div>
+    <div class="quiz-q">
+      <h3 id="water-q-text"></h3>
+      <div class="options" id="water-q-options"></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="screen" id="water-screen-results">
+    <div class="results">
+      <h1>Round Complete!</h1>
+      <div class="grade" id="water-final-grade">A</div>
+      <div class="stat-row">
+        <div class="stat"><b id="water-stat-score">0</b><span>Total Score</span></div>
+        <div class="stat"><b id="water-stat-match-acc">0%</b><span>Match Accuracy</span></div>
+        <div class="stat"><b id="water-stat-quiz-acc">0%</b><span>Quiz Accuracy</span></div>
+        <div class="stat"><b id="water-stat-time">0s</b><span>Total Time</span></div>
+      </div>
+      <button class="btn" onclick="WaterGame.restart()">Play Again</button>
+      <footer class="note">30 vocab terms · 19 key-concept questions · AP Bio: Water &amp; pH review</footer>
+    </div>
+  </div>
+
+</div>
+</div>
+<div class="page page-macromolecules" id="page-macromolecules">
+<div class="app">
+  <a class="hub-link" href="#" onclick="showPage('hub'); return false;">&larr; Chapter Hub</a>
+
+  <div class="screen active" id="macromolecules-screen-start">
+    <div class="start-box">
+      <div class="droplet">🧬</div>
+      <h1>Macromolecule Basics</h1>
+      <p class="subtitle">An AP Biology review game — Monomers, Polymers &amp; The Four Classes of Life</p>
+      <div style="text-align:left; max-width:520px; margin:0 auto;">
+        <ul class="rules">
+          <li>3 memory-match rounds cover monomers/polymers, the four classes of macromolecules, and their bonds/building blocks.</li>
+          <li>Flip two cards at a time to find a term's matching definition.</li>
+          <li>After all rounds, a bonus round tests dehydration synthesis vs. hydrolysis and the four classes.</li>
+        </ul>
+      </div>
+      <button class="btn" onclick="MacroGame.startGame()">Start Game</button>
+    </div>
+  </div>
+
+  <div class="screen" id="macromolecules-screen-levelintro">
+    <div class="hud">
+      <span class="tag" id="macromolecules-hud-level"></span>
+      <span class="tag" id="macromolecules-hud-score">Score: 0</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="macromolecules-progress-fill"></div></div>
+    <div class="level-card">
+      <h2 id="macromolecules-li-title"></h2>
+      <p id="macromolecules-li-desc" style="color:#396a58;"></p>
+      <button class="btn" onclick="MacroGame.beginLevel()">Begin Round</button>
+    </div>
+  </div>
+
+  <div class="screen" id="macromolecules-screen-game">
+    <div class="hud">
+      <span class="tag" id="macromolecules-hud-level2"></span>
+      <span class="tag" id="macromolecules-hud-score2">Score: 0</span>
+      <span class="tag" id="macromolecules-hud-flips">Flips: 0</span>
+      <span class="tag" id="macromolecules-hud-timer">Time: 0s</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="macromolecules-progress-fill2"></div></div>
+    <div class="grid" id="macromolecules-grid"></div>
+  </div>
+
+  <div class="screen" id="macromolecules-screen-quiz">
+    <div class="hud">
+      <span class="tag">Bonus: Synthesis &amp; Breakdown</span>
+      <span class="tag" id="macromolecules-hud-score3">Score: 0</span>
+      <span class="tag" id="macromolecules-hud-qnum">Question 1</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="macromolecules-progress-fill3"></div></div>
+    <div class="quiz-q">
+      <h3 id="macromolecules-q-text"></h3>
+      <div class="options" id="macromolecules-q-options"></div>
+    </div>
+  </div>
+
+  <div class="screen" id="macromolecules-screen-results">
+    <div class="results">
+      <h1>Round Complete!</h1>
+      <div class="grade" id="macromolecules-final-grade">A</div>
+      <div class="stat-row">
+        <div class="stat"><b id="macromolecules-stat-score">0</b><span>Total Score</span></div>
+        <div class="stat"><b id="macromolecules-stat-match-acc">0%</b><span>Match Accuracy</span></div>
+        <div class="stat"><b id="macromolecules-stat-quiz-acc">0%</b><span>Quiz Accuracy</span></div>
+        <div class="stat"><b id="macromolecules-stat-time">0s</b><span>Total Time</span></div>
+      </div>
+      <button class="btn" onclick="MacroGame.restart()">Play Again</button>
+      <footer class="note">18 vocab terms · 10 concept questions · AP Bio: Macromolecule Basics review</footer>
+    </div>
+  </div>
+</div>
+</div>
+<div class="page page-carbslipids" id="page-carbslipids">
+<div class="app">
+  <a class="hub-link" href="#" onclick="showPage('hub'); return false;">&larr; Chapter Hub</a>
+
+  <!-- START -->
+  <div class="screen active" id="carbslipids-screen-start">
+    <div class="start-box">
+      <div class="icon-big">🍞🧈</div>
+      <h1>Carbs &amp; Lipids Sort</h1>
+      <p class="subtitle">An AP Biology review game — Carbohydrates &amp; Lipids</p>
+      <div style="text-align:left; max-width:560px; margin:0 auto;">
+        <ul class="rules">
+          <li>Round 1: sort carbohydrate examples into monosaccharide, disaccharide, or polysaccharide.</li>
+          <li>Round 2: sort lipid examples into saturated fat, unsaturated fat, phospholipid, or steroid.</li>
+          <li>After both rounds, a bonus quiz covers alpha vs. beta glucose, trans fats, and more.</li>
+        </ul>
+      </div>
+      <button class="btn" onclick="CarbsLipidsGame.startGame()">Start Game</button>
+    </div>
+  </div>
+
+  <!-- ROUND INTRO -->
+  <div class="screen" id="carbslipids-screen-roundintro">
+    <div class="hud">
+      <span class="tag" id="carbslipids-hud-round"></span>
+      <span class="tag" id="carbslipids-hud-score0">Score: 0</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="carbslipids-progress-fill0"></div></div>
+    <div class="level-card">
+      <h2 id="carbslipids-ri-title"></h2>
+      <p id="carbslipids-ri-desc" style="color:#7a5a20;"></p>
+      <button class="btn" onclick="CarbsLipidsGame.beginRound()">Begin Sorting</button>
+    </div>
+  </div>
+
+  <!-- SORTING GAME -->
+  <div class="screen" id="carbslipids-screen-sort">
+    <div class="hud">
+      <span class="tag" id="carbslipids-hud-progress">Card 1/10</span>
+      <span class="tag" id="carbslipids-hud-score">Score: 0</span>
+      <span class="tag" id="carbslipids-hud-timer">Time: 0s</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="carbslipids-progress-fill"></div></div>
+
+    <div class="sort-card">
+      <p id="carbslipids-card-text"></p>
+    </div>
+
+    <div class="bin-row" id="carbslipids-bin-row"></div>
+
+    <div class="feedback-line" id="carbslipids-feedback-line"></div>
+  </div>
+
+  <!-- BONUS QUIZ -->
+  <div class="screen" id="carbslipids-screen-quiz">
+    <div class="hud">
+      <span class="tag">Bonus: Carbs &amp; Lipids Concepts</span>
+      <span class="tag" id="carbslipids-hud-score3">Score: 0</span>
+      <span class="tag" id="carbslipids-hud-qnum">Question 1</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="carbslipids-progress-fill3"></div></div>
+    <div class="quiz-q">
+      <h3 id="carbslipids-q-text"></h3>
+      <div class="options" id="carbslipids-q-options"></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="screen" id="carbslipids-screen-results">
+    <div class="results">
+      <h1>Round Complete!</h1>
+      <div class="grade" id="carbslipids-final-grade">A</div>
+      <div class="stat-row">
+        <div class="stat"><b id="carbslipids-stat-score">0</b><span>Total Score</span></div>
+        <div class="stat"><b id="carbslipids-stat-sort-acc">0%</b><span>Sorting Accuracy</span></div>
+        <div class="stat"><b id="carbslipids-stat-quiz-acc">0%</b><span>Quiz Accuracy</span></div>
+        <div class="stat"><b id="carbslipids-stat-time">0s</b><span>Total Time</span></div>
+      </div>
+      <button class="btn" onclick="CarbsLipidsGame.restart()">Play Again</button>
+      <footer class="note">18 sorting scenarios · 8 concept questions · AP Bio: Carbs &amp; Lipids review</footer>
+    </div>
+  </div>
+</div>
+</div>
+<div class="page page-protein" id="page-protein">
+<div class="app">
+  <a class="hub-link" href="#" onclick="showPage('hub'); return false;">&larr; Chapter Hub</a>
+
+  <!-- START -->
+  <div class="screen active" id="protein-screen-start">
+    <div class="start-box">
+      <div class="icon-big">🧵</div>
+      <h1>Protein Structure Stacker</h1>
+      <p class="subtitle">An AP Biology review game — Protein Structure &amp; Function</p>
+      <div style="text-align:left; max-width:560px; margin:0 auto;">
+        <ul class="rules">
+          <li>Round 1: sort descriptions into primary, secondary, tertiary, or quaternary structure.</li>
+          <li>Round 2: memory-match the 8 protein function types to their examples.</li>
+          <li>After both rounds, a bonus quiz covers denaturation and sickle-cell disease.</li>
+        </ul>
+      </div>
+      <button class="btn" onclick="ProteinGame.startGame()">Start Game</button>
+    </div>
+  </div>
+
+  <!-- ROUND INTRO -->
+  <div class="screen" id="protein-screen-roundintro">
+    <div class="hud">
+      <span class="tag" id="protein-hud-round"></span>
+      <span class="tag" id="protein-hud-score0">Score: 0</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="protein-progress-fill0"></div></div>
+    <div class="level-card">
+      <h2 id="protein-ri-title"></h2>
+      <p id="protein-ri-desc" style="color:#7a4068;"></p>
+      <button class="btn" onclick="ProteinGame.beginCurrentRound()">Begin</button>
+    </div>
+  </div>
+
+  <!-- SORT ROUND -->
+  <div class="screen" id="protein-screen-sort">
+    <div class="hud">
+      <span class="tag" id="protein-hud-progress">Card 1/10</span>
+      <span class="tag" id="protein-hud-score">Score: 0</span>
+      <span class="tag" id="protein-hud-timer">Time: 0s</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="protein-progress-fill"></div></div>
+    <div class="sort-card"><p id="protein-card-text"></p></div>
+    <div class="bin-row" id="protein-bin-row"></div>
+    <div class="feedback-line" id="protein-feedback-line"></div>
+  </div>
+
+  <!-- MEMORY MATCH ROUND -->
+  <div class="screen" id="protein-screen-match">
+    <div class="hud">
+      <span class="tag" id="protein-hud-round2"></span>
+      <span class="tag" id="protein-hud-score2">Score: 0</span>
+      <span class="tag" id="protein-hud-flips">Flips: 0</span>
+      <span class="tag" id="protein-hud-timer2">Time: 0s</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="protein-progress-fill2"></div></div>
+    <div class="grid" id="protein-grid"></div>
+  </div>
+
+  <!-- BONUS QUIZ -->
+  <div class="screen" id="protein-screen-quiz">
+    <div class="hud">
+      <span class="tag">Bonus: Structure &amp; Function</span>
+      <span class="tag" id="protein-hud-score3">Score: 0</span>
+      <span class="tag" id="protein-hud-qnum">Question 1</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="protein-progress-fill3"></div></div>
+    <div class="quiz-q">
+      <h3 id="protein-q-text"></h3>
+      <div class="options" id="protein-q-options"></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="screen" id="protein-screen-results">
+    <div class="results">
+      <h1>Round Complete!</h1>
+      <div class="grade" id="protein-final-grade">A</div>
+      <div class="stat-row">
+        <div class="stat"><b id="protein-stat-score">0</b><span>Total Score</span></div>
+        <div class="stat"><b id="protein-stat-sort-acc">0%</b><span>Sorting Accuracy</span></div>
+        <div class="stat"><b id="protein-stat-match-acc">0%</b><span>Match Accuracy</span></div>
+        <div class="stat"><b id="protein-stat-quiz-acc">0%</b><span>Quiz Accuracy</span></div>
+      </div>
+      <button class="btn" onclick="ProteinGame.restart()">Play Again</button>
+      <footer class="note">10 structure-level scenarios · 8 protein functions · 8 concept questions</footer>
+    </div>
+  </div>
+</div>
+</div>
+<div class="page page-nucleic" id="page-nucleic">
+<div class="app">
+  <a class="hub-link" href="#" onclick="showPage('hub'); return false;">&larr; Chapter Hub</a>
+
+  <!-- START -->
+  <div class="screen active" id="nucleic-screen-start">
+    <div class="start-box">
+      <div class="icon-big">🧬</div>
+      <h1>Nucleic Acid Builder</h1>
+      <p class="subtitle">An AP Biology review game — DNA, RNA &amp; Nucleotides</p>
+      <div style="text-align:left; max-width:560px; margin:0 auto;">
+        <ul class="rules">
+          <li>Round 1: memory-match 8 nucleic acid vocab terms to their definitions.</li>
+          <li>Round 2: sort each base into its correct complementary pairing partner.</li>
+          <li>After both rounds, a bonus quiz covers DNA vs. RNA and the central dogma.</li>
+        </ul>
+      </div>
+      <button class="btn" onclick="NucleicGame.startGame()">Start Game</button>
+    </div>
+  </div>
+
+  <!-- ROUND INTRO -->
+  <div class="screen" id="nucleic-screen-roundintro">
+    <div class="hud">
+      <span class="tag" id="nucleic-hud-round"></span>
+      <span class="tag" id="nucleic-hud-score0">Score: 0</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="nucleic-progress-fill0"></div></div>
+    <div class="level-card">
+      <h2 id="nucleic-ri-title"></h2>
+      <p id="nucleic-ri-desc" style="color:#3a5a80;"></p>
+      <button class="btn" onclick="NucleicGame.beginCurrentRound()">Begin</button>
+    </div>
+  </div>
+
+  <!-- MEMORY MATCH ROUND -->
+  <div class="screen" id="nucleic-screen-match">
+    <div class="hud">
+      <span class="tag" id="nucleic-hud-round2"></span>
+      <span class="tag" id="nucleic-hud-score2">Score: 0</span>
+      <span class="tag" id="nucleic-hud-flips">Flips: 0</span>
+      <span class="tag" id="nucleic-hud-timer2">Time: 0s</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="nucleic-progress-fill2"></div></div>
+    <div class="grid" id="nucleic-grid"></div>
+  </div>
+
+  <!-- SORT ROUND (base pairing) -->
+  <div class="screen" id="nucleic-screen-sort">
+    <div class="hud">
+      <span class="tag" id="nucleic-hud-progress">Card 1/10</span>
+      <span class="tag" id="nucleic-hud-score">Score: 0</span>
+      <span class="tag" id="nucleic-hud-timer">Time: 0s</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="nucleic-progress-fill"></div></div>
+    <div class="sort-card"><p id="nucleic-card-text"></p></div>
+    <div class="bin-row" id="nucleic-bin-row"></div>
+    <div class="feedback-line" id="nucleic-feedback-line"></div>
+  </div>
+
+  <!-- BONUS QUIZ -->
+  <div class="screen" id="nucleic-screen-quiz">
+    <div class="hud">
+      <span class="tag">Bonus: DNA, RNA &amp; Central Dogma</span>
+      <span class="tag" id="nucleic-hud-score3">Score: 0</span>
+      <span class="tag" id="nucleic-hud-qnum">Question 1</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="nucleic-progress-fill3"></div></div>
+    <div class="quiz-q">
+      <h3 id="nucleic-q-text"></h3>
+      <div class="options" id="nucleic-q-options"></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="screen" id="nucleic-screen-results">
+    <div class="results">
+      <h1>Round Complete!</h1>
+      <div class="grade" id="nucleic-final-grade">A</div>
+      <div class="stat-row">
+        <div class="stat"><b id="nucleic-stat-score">0</b><span>Total Score</span></div>
+        <div class="stat"><b id="nucleic-stat-match-acc">0%</b><span>Match Accuracy</span></div>
+        <div class="stat"><b id="nucleic-stat-sort-acc">0%</b><span>Pairing Accuracy</span></div>
+        <div class="stat"><b id="nucleic-stat-quiz-acc">0%</b><span>Quiz Accuracy</span></div>
+      </div>
+      <button class="btn" onclick="NucleicGame.restart()">Play Again</button>
+      <footer class="note">8 nucleic acid terms · 10 base-pairing scenarios · 8 concept questions</footer>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+
+function showPage(name){
+  document.querySelectorAll('div.page').forEach(p=>p.classList.remove('active'));
+  var el = document.getElementById('page-'+name);
+  if(el){ el.classList.add('active'); }
+  window.scrollTo(0,0);
+}
+
+</script>
+<script>(function(){
+  var root = document.getElementById('page-atoms');
+
+const SHELL_CAPS = [2,8,8];
+
+const levels = [
+  { name:"Hydrogen", desc:"The simplest atom — just one proton and one electron.",
+    protons:1, neutrons:0, electrons:1, mass:1 },
+  { name:"Helium", desc:"A full first shell makes this one very stable.",
+    protons:2, neutrons:2, electrons:2, mass:4 },
+  { name:"Carbon-12", desc:"The backbone of biology — build the most common carbon isotope.",
+    protons:6, neutrons:6, electrons:6, mass:12 },
+  { name:"Nitrogen", desc:"Found in amino acids and DNA bases.",
+    protons:7, neutrons:7, electrons:7, mass:14 },
+  { name:"Oxygen", desc:"Highly electronegative — key to water's polarity.",
+    protons:8, neutrons:8, electrons:8, mass:16 },
+  { name:"Carbon-14", desc:"Same element as carbon-12, but with 2 extra neutrons. Same protons = same element!",
+    protons:6, neutrons:8, electrons:6, mass:14, isotopeNote:true },
+  { name:"Sodium", desc:"One lonely valence electron makes this atom very reactive.",
+    protons:11, neutrons:12, electrons:11, mass:23 },
+  { name:"Chlorine", desc:"Almost a full valence shell — just needs one more electron.",
+    protons:17, neutrons:18, electrons:17, mass:35 }
+];
+
+const quizQuestions = [
+  { q:"The atomic number of an atom is determined by its number of ___.",
+    options:["protons","neutrons","electrons","valence shells"], answer:0 },
+  { q:"Protons carry a ___ charge.",
+    options:["positive","negative","neutral","variable"], answer:0 },
+  { q:"Changing the number of neutrons in an atom (without changing protons) changes its ___.",
+    options:["atomic number","mass","element identity","charge"], answer:1 },
+  { q:"Atoms of the same element with different numbers of neutrons are called ___.",
+    options:["ions","isotopes","valence atoms","isomers"], answer:1 },
+  { q:"Electrons occupy energy levels called ___.",
+    options:["nuclei","isotopes","electron shells","valence bonds"], answer:2 },
+  { q:"The outermost electron shell of an atom is called its ___.",
+    options:["atoms-nucleus","valence shell","core shell","ion shell"], answer:1 },
+  { q:"An atom's reactivity — the kinds of bonds it can form — is determined mainly by its ___.",
+    options:["number of neutrons","atomic mass","valence electrons","isotope form"], answer:2 },
+  { q:"Atoms with a full valence shell are generally ___.",
+    options:["highly reactive","unstable","stable and less reactive","radioactive"], answer:2 }
+];
+
+let state = {
+  levelIndex:0, score:0, attempts:0, totalAttempts:0, correctBuilds:0,
+  startTime:0, timerInterval:null, quizIndex:0, quizCorrect:0, shuffledQuestions:[]
+};
+let build = {protons:0, neutrons:0, electrons:0};
+
+function shuffleArray(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+function buildShuffledQuestions(){
+  const qs = quizQuestions.map(q=>{
+    const opts = q.options.map((text,i)=>({text, correct:i===q.answer}));
+    shuffleArray(opts);
+    return { q:q.q, options: opts.map(o=>o.text), answer: opts.findIndex(o=>o.correct) };
+  });
+  return shuffleArray(qs);
+}
+
+function showScreen(id){
+  root.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startGame(){
+  state = {levelIndex:0, score:0, attempts:0, totalAttempts:0, correctBuilds:0,
+           startTime:Date.now(), timerInterval:null, quizIndex:0, quizCorrect:0, shuffledQuestions:[]};
+  showLevelIntro();
+}
+
+function updateHud(){
+  document.getElementById('atoms-hud-level').textContent = `Round ${state.levelIndex+1}/${levels.length}`;
+  document.getElementById('atoms-hud-score').textContent = `Score: ${state.score}`;
+  document.getElementById('atoms-hud-level2').textContent = `Round ${state.levelIndex+1}/${levels.length}`;
+  document.getElementById('atoms-hud-score2').textContent = `Score: ${state.score}`;
+  document.getElementById('atoms-hud-score3').textContent = `Score: ${state.score}`;
+  const pct = Math.round((state.levelIndex/levels.length)*100);
+  document.getElementById('atoms-progress-fill').style.width = pct+'%';
+  document.getElementById('atoms-progress-fill2').style.width = pct+'%';
+}
+
+function showLevelIntro(){
+  const lvl = levels[state.levelIndex];
+  document.getElementById('atoms-li-title').textContent = `Round ${state.levelIndex+1}: Build ${lvl.name}`;
+  document.getElementById('atoms-li-desc').textContent = lvl.desc;
+  updateHud();
+  showScreen('atoms-screen-levelintro');
+}
+
+function beginLevel(){
+  build = {protons:0, neutrons:0, electrons:0};
+  state.attempts = 0;
+  const lvl = levels[state.levelIndex];
+  document.getElementById('atoms-target-name').textContent = `Target: ${lvl.name}`;
+  document.getElementById('atoms-target-fact').textContent = `Mass number: ${lvl.mass}  ·  Match the protons, neutrons, and electrons.`;
+  document.getElementById('atoms-report').style.display = 'none';
+  document.getElementById('atoms-hint-protons').innerHTML = '';
+  document.getElementById('atoms-hint-neutrons').innerHTML = '';
+  document.getElementById('atoms-hint-electrons').innerHTML = '';
+  document.getElementById('atoms-hud-attempts').textContent = 'Attempts: 0';
+  renderBuild();
+  updateHud();
+  startTimer();
+  showScreen('atoms-screen-build');
+}
+
+function changeParticle(type, delta){
+  if(delta>0){
+    build[type] = Math.min(build[type]+1, 20);
+  } else {
+    build[type] = Math.max(build[type]-1, 0);
+  }
+  renderBuild();
+}
+
+function shellDistribution(count){
+  let remaining = count, dist = [];
+  for(const cap of SHELL_CAPS){
+    if(remaining<=0) break;
+    const n = Math.min(cap, remaining);
+    dist.push(n);
+    remaining -= n;
+  }
+  return dist;
+}
+
+function renderBuild(){
+  document.getElementById('atoms-count-protons').textContent = build.protons;
+  document.getElementById('atoms-count-neutrons').textContent = build.neutrons;
+  document.getElementById('atoms-count-electrons').textContent = build.electrons;
+
+  const nucleus = document.getElementById('atoms-nucleus');
+  nucleus.innerHTML = '';
+  for(let i=0;i<build.protons;i++){
+    const d = document.createElement('div'); d.className='np p'; nucleus.appendChild(d);
+  }
+  for(let i=0;i<build.neutrons;i++){
+    const d = document.createElement('div'); d.className='np n'; nucleus.appendChild(d);
+  }
+
+  const visual = document.getElementById('atoms-atom-visual');
+  visual.querySelectorAll('.shell, .e-dot').forEach(el=>el.remove());
+
+  const dist = shellDistribution(build.electrons);
+  const radii = [55, 95, 135];
+  dist.forEach((n, shellIdx)=>{
+    const r = radii[shellIdx];
+    const ring = document.createElement('div');
+    ring.className = 'shell';
+    ring.style.width = (r*2)+'px';
+    ring.style.height = (r*2)+'px';
+    visual.appendChild(ring);
+    for(let i=0;i<n;i++){
+      const angle = (2*Math.PI*i/n) - Math.PI/2;
+      const x = Math.cos(angle)*r;
+      const y = Math.sin(angle)*r;
+      const dot = document.createElement('div');
+      dot.className = 'e-dot';
+      dot.style.left = `calc(50% + ${x}px - 6px)`;
+      dot.style.top = `calc(50% + ${y}px - 6px)`;
+      visual.appendChild(dot);
+    }
+  });
+}
+
+function hintChip(elId, isOk, tooMany){
+  const el = document.getElementById(elId);
+  if(isOk){
+    el.innerHTML = '<span class="hint-chip ok">correct</span>';
+  } else {
+    el.innerHTML = `<span class="hint-chip bad">${tooMany ? 'too many' : 'too few'}</span>`;
+  }
+}
+
+function checkAtom(){
+  const lvl = levels[state.levelIndex];
+  state.attempts++;
+  state.totalAttempts++;
+  document.getElementById('atoms-hud-attempts').textContent = 'Attempts: ' + state.attempts;
+
+  const pOk = build.protons === lvl.protons;
+  const nOk = build.neutrons === lvl.neutrons;
+  const eOk = build.electrons === lvl.electrons;
+
+  hintChip('atoms-hint-protons', pOk, build.protons > lvl.protons);
+  hintChip('atoms-hint-neutrons', nOk, build.neutrons > lvl.neutrons);
+  hintChip('atoms-hint-electrons', eOk, build.electrons > lvl.electrons);
+
+  const report = document.getElementById('atoms-report');
+  report.style.display = 'block';
+
+  if(pOk && nOk && eOk){
+    state.correctBuilds++;
+    const pts = Math.max(15 - (state.attempts-1)*3, 5);
+    state.score += pts;
+    updateHud();
+
+    const dist = shellDistribution(lvl.electrons);
+    const valence = dist[dist.length-1];
+    const outerCap = SHELL_CAPS[dist.length-1];
+    const stable = valence === outerCap;
+    const massNumber = lvl.protons + lvl.neutrons;
+
+    let html = `<h3>✅ Correct! You built ${lvl.name}.</h3>`;
+    html += `<p><b>Atomic number:</b> ${lvl.protons} (set by proton count)</p>`;
+    html += `<p><b>Mass number:</b> ${massNumber} (protons + neutrons)</p>`;
+    html += `<p><b>Valence electrons:</b> ${valence} in the outermost shell</p>`;
+    html += `<p><b>Stability:</b> ${stable ? 'Valence shell is full — stable, unlikely to react.' : 'Valence shell is not full — reactive, will tend to form bonds.'}</p>`;
+    if(lvl.isotopeNote){
+      html += `<p><b>Isotope check:</b> This atom has 6 protons — same as carbon-12 — but 8 neutrons instead of 6. Same element, different mass. That makes it an isotope of carbon!</p>`;
+    }
+    report.className = 'atoms-report success';
+    report.innerHTML = html;
+    setTimeout(()=>{
+      state.levelIndex++;
+      if(state.levelIndex < levels.length){
+        showLevelIntro();
+      } else {
+        startQuiz();
+      }
+    }, 2400);
+  } else {
+    report.className = 'atoms-report fail';
+    report.innerHTML = `<h3>Not quite yet</h3><p>Check the hints next to each stepper above — adjust the counts and try again.</p>`;
+  }
+}
+
+function startTimer(){
+  stopTimer();
+  const t0 = Date.now();
+  state.timerInterval = setInterval(()=>{
+    const secs = Math.floor((Date.now()-t0)/1000);
+    document.getElementById('atoms-hud-timer').textContent = 'Time: '+secs+'s';
+  }, 500);
+}
+function stopTimer(){
+  if(state.timerInterval) clearInterval(state.timerInterval);
+}
+
+function startQuiz(){
+  stopTimer();
+  state.quizIndex = 0;
+  state.quizCorrect = 0;
+  state.shuffledQuestions = buildShuffledQuestions();
+  showQuestion();
+  showScreen('atoms-screen-quiz');
+}
+
+function showQuestion(){
+  const total = state.shuffledQuestions.length;
+  const q = state.shuffledQuestions[state.quizIndex];
+  document.getElementById('atoms-hud-qnum').textContent = `Question ${state.quizIndex+1}/${total}`;
+  document.getElementById('atoms-hud-score3').textContent = `Score: ${state.score}`;
+  document.getElementById('atoms-progress-fill3').style.width = Math.round((state.quizIndex/total)*100)+'%';
+  document.getElementById('atoms-q-text').textContent = q.q;
+  const opts = document.getElementById('atoms-q-options');
+  opts.innerHTML = '';
+  q.options.forEach((opt, i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = opt;
+    btn.onclick = ()=>answerQuiz(i, btn);
+    opts.appendChild(btn);
+  });
+}
+
+function answerQuiz(i, btn){
+  const q = state.shuffledQuestions[state.quizIndex];
+  const allBtns = root.querySelectorAll('#atoms-q-options .opt-btn');
+  allBtns.forEach(b=>b.disabled = true);
+  if(i === q.answer){
+    btn.classList.add('correct');
+    state.quizCorrect++;
+    state.score += 15;
+  } else {
+    btn.classList.add('incorrect');
+    allBtns[q.answer].classList.add('correct');
+  }
+  document.getElementById('atoms-hud-score3').textContent = `Score: ${state.score}`;
+  setTimeout(()=>{
+    state.quizIndex++;
+    if(state.quizIndex < state.shuffledQuestions.length){
+      showQuestion();
+    } else {
+      showResults();
+    }
+  }, 1000);
+}
+
+function showResults(){
+  const totalTime = Math.round((Date.now()-state.startTime)/1000);
+  const buildAcc = Math.round((state.correctBuilds/state.totalAttempts)*100) || 0;
+  const quizAcc = Math.round((state.quizCorrect/state.shuffledQuestions.length)*100);
+  const overall = Math.round((buildAcc+quizAcc)/2);
+  let grade = 'C';
+  if(overall>=90) grade='A';
+  else if(overall>=80) grade='A-';
+  else if(overall>=70) grade='B';
+  else if(overall>=60) grade='C';
+  else grade='D';
+
+  document.getElementById('atoms-final-grade').textContent = grade;
+  document.getElementById('atoms-stat-score').textContent = state.score;
+  document.getElementById('atoms-stat-build-acc').textContent = buildAcc+'%';
+  document.getElementById('atoms-stat-quiz-acc').textContent = quizAcc+'%';
+  document.getElementById('atoms-stat-time').textContent = totalTime+'s';
+  showScreen('atoms-screen-results');
+}
+
+  function restart(){ stopTimer(); showScreen('atoms-screen-start'); }
+  window.AtomsGame = {
+    startGame,
+    beginLevel,
+    checkAtom,
+    changeParticle,
+    restart
+  };
+})();</script>
+<script>(function(){
+  var root = document.getElementById('page-bonding');
+
+const binLabels = {
+  ionic:"Ionic Bond", nonpolar:"Nonpolar Covalent Bond", polar:"Polar Covalent Bond",
+  hbond:"Hydrogen Bond", vdw:"Van der Waals Interaction"
+};
+
+const scenarios = [
+  { text:"Sodium (Na) loses an electron to chlorine (Cl), forming Na⁺ and Cl⁻ ions that attract each other.", type:"ionic" },
+  { text:"Two hydrogen atoms share their electrons equally to form H₂ gas.", type:"nonpolar" },
+  { text:"In water, oxygen pulls the shared electrons more strongly than hydrogen, giving O a δ− and H a δ+.", type:"polar" },
+  { text:"The δ+ hydrogen of one water molecule is weakly attracted to the δ− oxygen of a neighboring water molecule.", type:"hbond" },
+  { text:"Two nonpolar molecules briefly attract each other as their electron clouds shift, creating temporary partial charges.", type:"vdw" },
+  { text:"Two oxygen atoms share electrons equally to form O₂ gas.", type:"nonpolar" },
+  { text:"Potassium transfers an electron to fluorine, creating K⁺ and F⁻ ions held together by opposite charges.", type:"ionic" },
+  { text:"Carbon and hydrogen share electrons almost equally in methane (CH₄), since their electronegativities are similar.", type:"nonpolar" },
+  { text:"Nitrogen and hydrogen share electrons unequally in ammonia (NH₃), giving nitrogen a partial negative charge.", type:"polar" },
+  { text:"Gecko feet stick to walls using many brief, weak attractions between nonpolar surfaces.", type:"vdw" },
+  { text:"Hydrogen bonds hold the two strands of DNA together between base pairs like A–T and G–C.", type:"hbond" },
+  { text:"Calcium transfers electrons to two chlorine atoms, forming the ionic compound CaCl₂.", type:"ionic" }
+];
+
+const quizQuestions = [
+  { q:"In a covalent bond, atoms ___ electrons.",
+    options:["transfer","share","repel","ionize"], answer:1 },
+  { q:"If electrons in a covalent bond are shared unequally, the bond is called ___.",
+    options:["nonpolar covalent","polar covalent","ionic","a hydrogen bond"], answer:1 },
+  { q:"Oxygen is more ___ than hydrogen, which is why water's O–H bonds are polar covalent.",
+    options:["massive","electronegative","reactive","neutral"], answer:1 },
+  { q:"In ionic bonding, one atom ___ electron(s) to another atom.",
+    options:["shares","transfers","repels","absorbs"], answer:1 },
+  { q:"Hydrogen bonds form between partial positive and partial negative regions of ___ molecules.",
+    options:["the same","nearby","ionic","nonpolar"], answer:1 },
+  { q:"Compared to covalent and ionic bonds, van der Waals interactions are ___.",
+    options:["much stronger","brief and weak","permanent","only found in metals"], answer:1 }
+];
+
+let state = {
+  score:0, cardIndex:0, correctSorts:0, totalSorts:0,
+  startTime:0, timerInterval:null, quizIndex:0, quizCorrect:0,
+  shuffledScenarios:[], shuffledQuestions:[], locked:false
+};
+
+function shuffleArray(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+function buildShuffledQuestions(){
+  const qs = quizQuestions.map(q=>{
+    const opts = q.options.map((text,i)=>({text, correct:i===q.answer}));
+    shuffleArray(opts);
+    return { q:q.q, options: opts.map(o=>o.text), answer: opts.findIndex(o=>o.correct) };
+  });
+  return shuffleArray(qs);
+}
+
+function showScreen(id){
+  root.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startGame(){
+  state = {
+    score:0, cardIndex:0, correctSorts:0, totalSorts:0,
+    startTime:Date.now(), timerInterval:null, quizIndex:0, quizCorrect:0,
+    shuffledScenarios: shuffleArray(scenarios.slice()), shuffledQuestions:[], locked:false
+  };
+  startTimer();
+  showCard();
+  showScreen('bonding-screen-sort');
+}
+
+function showCard(){
+  const total = state.shuffledScenarios.length;
+  const card = state.shuffledScenarios[state.cardIndex];
+  document.getElementById('bonding-hud-progress').textContent = `Card ${state.cardIndex+1}/${total}`;
+  document.getElementById('bonding-hud-score').textContent = `Score: ${state.score}`;
+  document.getElementById('bonding-progress-fill').style.width = Math.round((state.cardIndex/total)*100)+'%';
+  document.getElementById('bonding-card-text').textContent = card.text;
+  document.getElementById('bonding-feedback-line').textContent = '';
+  document.getElementById('bonding-feedback-line').className = 'bonding-feedback-line';
+  root.querySelectorAll('.bin-btn').forEach(b=>{
+    b.disabled = false;
+    b.classList.remove('correct-flash','incorrect-flash');
+  });
+  state.locked = false;
+}
+
+function answerSort(type, btn){
+  if(state.locked) return;
+  state.locked = true;
+  const card = state.shuffledScenarios[state.cardIndex];
+  state.totalSorts++;
+  root.querySelectorAll('.bin-btn').forEach(b=>b.disabled = true);
+  const fb = document.getElementById('bonding-feedback-line');
+
+  if(type === card.type){
+    btn.classList.add('correct-flash');
+    state.correctSorts++;
+    state.score += 10;
+    fb.textContent = `Correct — that's a ${binLabels[card.type]}!`;
+    fb.classList.add('good');
+  } else {
+    btn.classList.add('incorrect-flash');
+    root.querySelector(`.bin-btn.${card.type}`).classList.add('correct-flash');
+    fb.textContent = `Not quite — that's actually a ${binLabels[card.type]}.`;
+    fb.classList.add('bad');
+  }
+  document.getElementById('bonding-hud-score').textContent = `Score: ${state.score}`;
+
+  setTimeout(()=>{
+    state.cardIndex++;
+    if(state.cardIndex < state.shuffledScenarios.length){
+      showCard();
+    } else {
+      startQuiz();
+    }
+  }, 1300);
+}
+
+function startTimer(){
+  stopTimer();
+  const t0 = Date.now();
+  state.timerInterval = setInterval(()=>{
+    const secs = Math.floor((Date.now()-t0)/1000);
+    document.getElementById('bonding-hud-timer').textContent = 'Time: '+secs+'s';
+  }, 500);
+}
+function stopTimer(){
+  if(state.timerInterval) clearInterval(state.timerInterval);
+}
+
+function startQuiz(){
+  stopTimer();
+  state.quizIndex = 0;
+  state.quizCorrect = 0;
+  state.shuffledQuestions = buildShuffledQuestions();
+  showQuestion();
+  showScreen('bonding-screen-quiz');
+}
+
+function showQuestion(){
+  const total = state.shuffledQuestions.length;
+  const q = state.shuffledQuestions[state.quizIndex];
+  document.getElementById('bonding-hud-qnum').textContent = `Question ${state.quizIndex+1}/${total}`;
+  document.getElementById('bonding-hud-score3').textContent = `Score: ${state.score}`;
+  document.getElementById('bonding-progress-fill3').style.width = Math.round((state.quizIndex/total)*100)+'%';
+  document.getElementById('bonding-q-text').textContent = q.q;
+  const opts = document.getElementById('bonding-q-options');
+  opts.innerHTML = '';
+  q.options.forEach((opt, i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = opt;
+    btn.onclick = ()=>answerQuiz(i, btn);
+    opts.appendChild(btn);
+  });
+}
+
+function answerQuiz(i, btn){
+  const q = state.shuffledQuestions[state.quizIndex];
+  const allBtns = root.querySelectorAll('#bonding-q-options .opt-btn');
+  allBtns.forEach(b=>b.disabled = true);
+  if(i === q.answer){
+    btn.classList.add('correct');
+    state.quizCorrect++;
+    state.score += 15;
+  } else {
+    btn.classList.add('incorrect');
+    allBtns[q.answer].classList.add('correct');
+  }
+  document.getElementById('bonding-hud-score3').textContent = `Score: ${state.score}`;
+  setTimeout(()=>{
+    state.quizIndex++;
+    if(state.quizIndex < state.shuffledQuestions.length){
+      showQuestion();
+    } else {
+      showResults();
+    }
+  }, 1000);
+}
+
+function showResults(){
+  const totalTime = Math.round((Date.now()-state.startTime)/1000);
+  const sortAcc = Math.round((state.correctSorts/state.totalSorts)*100) || 0;
+  const quizAcc = Math.round((state.quizCorrect/state.shuffledQuestions.length)*100);
+  const overall = Math.round((sortAcc+quizAcc)/2);
+  let grade = 'C';
+  if(overall>=90) grade='A';
+  else if(overall>=80) grade='A-';
+  else if(overall>=70) grade='B';
+  else if(overall>=60) grade='C';
+  else grade='D';
+
+  document.getElementById('bonding-final-grade').textContent = grade;
+  document.getElementById('bonding-stat-score').textContent = state.score;
+  document.getElementById('bonding-stat-sort-acc').textContent = sortAcc+'%';
+  document.getElementById('bonding-stat-quiz-acc').textContent = quizAcc+'%';
+  document.getElementById('bonding-stat-time').textContent = totalTime+'s';
+  showScreen('bonding-screen-results');
+}
+
+  function restart(){ stopTimer(); showScreen('bonding-screen-start'); }
+  window.BondingGame = {
+    startGame,
+    answerSort,
+    restart
+  };
+})();</script>
+<script>(function(){
+  var root = document.getElementById('page-water');
+
+const levels = [
+  { name:"Water Chemistry Basics", desc:"Polarity, bonding, and water's team-building skills.",
+    pairs:[
+      ["Polarity","Uneven distribution of charge in a molecule"],
+      ["Polar covalent bond","A bond in which electrons are shared unequally"],
+      ["Hydrogen bond","Weak attraction between the δ+ H of one water molecule and δ− O of another"],
+      ["Cohesion","Water molecules sticking to each other"],
+      ["Adhesion","Water sticking to other surfaces"],
+      ["Surface tension","Cohesive \"skin\" at the surface of water"]
+    ]
+  },
+  { name:"Heat, Density & Solvents", desc:"How water handles energy, mass, and mixing.",
+    pairs:[
+      ["Specific heat","Energy needed to change a substance's temperature"],
+      ["Evaporative cooling","Cooling as the highest-energy water molecules evaporate"],
+      ["Heat of vaporization","Energy needed to turn liquid water into water vapor"],
+      ["Density","Mass per volume"],
+      ["Hydration shell","Layer of water molecules surrounding a dissolved ion"],
+      ["Solvent","Substance that dissolves another substance (water, often)"]
+    ]
+  },
+  { name:"Solutions", desc:"Solutes, solvents, and who loves (or hates) water.",
+    pairs:[
+      ["Solute","Substance being dissolved"],
+      ["Solution","Uniform mixture of solute and solvent"],
+      ["Aqueous solution","A solution in which water is the solvent"],
+      ["Hydrophilic","Attracted to water; usually polar or charged"],
+      ["Hydrophobic","Repelled by water; usually nonpolar"],
+      ["Mole","6.02 × 10²³ particles"]
+    ]
+  },
+  { name:"Acids, Bases & Ions", desc:"Measuring concentration and the ions of pH.",
+    pairs:[
+      ["Molarity","Moles of solute per liter of solution"],
+      ["Acid","Substance that increases H⁺ concentration"],
+      ["Base","Substance that decreases H⁺ concentration / increases OH⁻"],
+      ["Hydrogen ion (H⁺)","Ion associated with acidity"],
+      ["Hydroxide ion (OH⁻)","Ion associated with basic conditions"],
+      ["Hydronium ion (H₃O⁺)","H⁺ attached to a water molecule"]
+    ]
+  },
+  { name:"pH & Buffers", desc:"Keeping systems stable — and what happens when they're not.",
+    pairs:[
+      ["pH","Measure of H⁺ concentration"],
+      ["Neutral","pH 7; equal H⁺ and OH⁻ concentrations"],
+      ["Buffer","Substance that resists sudden pH changes"],
+      ["Carbonic acid–bicarbonate buffer","Important buffer system in blood and oceans"],
+      ["Ocean acidification","CO₂ dissolves in ocean water, lowers pH, reduces carbonate for shells/coral"],
+      ["Antagonistic","Having opposite effects, like insulin lowering blood glucose and glucagon raising it"]
+    ]
+  }
+];
+
+const quizQuestions = [
+  { q:"Water is polar because ___ pulls electrons more strongly than hydrogen.",
+    options:["Oxygen","Hydrogen","Carbon","Nitrogen"], answer:0 },
+  { q:"Water's polarity allows it to form hydrogen bonds, which explain most of water's ___.",
+    options:["special properties","density only","acidity","molarity"], answer:0 },
+  { q:"In plant xylem, water molecules pull one another upward in a continuous column. This is ___.",
+    options:["adhesion","cohesion","evaporative cooling","surface tension"], answer:1 },
+  { q:"Water climbing the walls of plant cells, working against gravity, demonstrates ___.",
+    options:["cohesion","density","adhesion","a hydration shell"], answer:2 },
+  { q:"Water's high ___ helps prevent rapid temperature changes in organisms and ecosystems.",
+    options:["heat of vaporization","specific heat","molarity","pH"], answer:1 },
+  { q:"When you sweat, the fastest, highest-energy water molecules evaporate first, cooling you. This is ___.",
+    options:["surface tension","hydrogen bonding","evaporative cooling","cohesion"], answer:2 },
+  { q:"Ice floats on liquid water because hydrogen bonds hold molecules ___ apart in ice than in liquid water.",
+    options:["closer","farther","randomly","the same"], answer:1 },
+  { q:"Water dissolves ionic and polar substances, letting nutrients and ions move through cells and blood. Substances attracted to water are called ___.",
+    options:["hydrophobic","nonpolar","hydrophilic","neutral"], answer:2 },
+  { q:"Oils do not mix with water because they are ___, which matters for cell membranes.",
+    options:["hydrophilic","hydrophobic","ionic","polar"], answer:1 },
+  { q:"A(n) ___ increases H⁺ concentration in a solution, lowering its pH.",
+    options:["base","buffer","acid","solvent"], answer:2 },
+  { q:"Because the pH scale is logarithmic, a solution with pH 4 has ___ times more H⁺ than one with pH 6.",
+    options:["2","10","100","1000"], answer:2 },
+  { q:"___ resist sudden pH changes, which is essential since proteins and cell processes are pH-sensitive.",
+    options:["Solvents","Buffers","Hydration shells","Acids"], answer:1 },
+  { q:"Rising CO₂ dissolves in the ocean, forming carbonic acid, increasing H⁺ and ___ ocean pH.",
+    options:["raising","stabilizing","lowering","neutralizing"], answer:2 },
+  { q:"Ocean acidification harms corals and shell-builders because extra H⁺ reduces the ___ ions needed for calcium carbonate shells.",
+    options:["hydroxide","carbonate","hydronium","bicarbonate"], answer:1 },
+  { q:"Antagonistic hormones like insulin and glucagon have ___ effects on blood glucose.",
+    options:["identical","opposite","delayed","additive"], answer:1 },
+  { q:"A hydration shell forms when polar water molecules surround a dissolved ___.",
+    options:["gas","nonpolar molecule","ion","buffer"], answer:2 },
+  { q:"Molarity is defined as moles of solute per ___ of solution.",
+    options:["gram","liter","mole","kilogram"], answer:1 },
+  { q:"Water's high heat of vaporization means it takes a lot of energy to convert liquid water into ___.",
+    options:["ice","water vapor","hydronium ions","a hydration shell"], answer:1 },
+  { q:"A solution with a pH of 3 is considered ___.",
+    options:["neutral", "basic", "buffered", "acidic"], answer:3 }
+];
+
+let state = {
+  levelIndex:0,
+  score:0,
+  totalFlips:0,
+  totalMatchAttempts:0,
+  correctMatchAttempts:0,
+  startTime:0,
+  timerInterval:null,
+  quizIndex:0,
+  quizCorrect:0,
+  shuffledQuestions:[]
+};
+
+function shuffleArray(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+
+function buildShuffledQuestions(){
+  const qs = quizQuestions.map(q=>{
+    const opts = q.options.map((text,i)=>({text, correct:i===q.answer}));
+    shuffleArray(opts);
+    return {
+      q:q.q,
+      options: opts.map(o=>o.text),
+      answer: opts.findIndex(o=>o.correct)
+    };
+  });
+  return shuffleArray(qs);
+}
+
+function showScreen(id){
+  root.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startGame(){
+  state = {levelIndex:0, score:0, totalFlips:0, totalMatchAttempts:0, correctMatchAttempts:0,
+            startTime:Date.now(), timerInterval:null, quizIndex:0, quizCorrect:0, shuffledQuestions:[]};
+  showLevelIntro();
+}
+
+function updateHud(){
+  document.getElementById('water-hud-level').textContent = `Round ${state.levelIndex+1}/5`;
+  document.getElementById('water-hud-score').textContent = `Score: ${state.score}`;
+  document.getElementById('water-hud-level2').textContent = `Round ${state.levelIndex+1}/5`;
+  document.getElementById('water-hud-score2').textContent = `Score: ${state.score}`;
+  document.getElementById('water-hud-score3').textContent = `Score: ${state.score}`;
+  const pct = Math.round((state.levelIndex/5)*100);
+  document.getElementById('water-progress-fill').style.width = pct+'%';
+  document.getElementById('water-progress-fill2').style.width = pct+'%';
+}
+
+function showLevelIntro(){
+  const lvl = levels[state.levelIndex];
+  document.getElementById('water-li-title').textContent = `Round ${state.levelIndex+1}: ${lvl.name}`;
+  document.getElementById('water-li-desc').textContent = lvl.desc;
+  updateHud();
+  showScreen('water-screen-levelintro');
+}
+
+let gridState = {cards:[], flipped:[], matched:0, lock:false, flips:0};
+
+function beginLevel(){
+  const lvl = levels[state.levelIndex];
+  let cards = [];
+  lvl.pairs.forEach((p, i)=>{
+    cards.push({id:i, type:'term', text:p[0], pairKey:i});
+    cards.push({id:i, type:'def', text:p[1], pairKey:i});
+  });
+  // shuffle
+  for(let i=cards.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [cards[i],cards[j]] = [cards[j],cards[i]];
+  }
+  gridState = {cards, flipped:[], matched:0, lock:false, flips:0};
+  renderGrid();
+  updateHud();
+  document.getElementById('water-hud-flips').textContent = 'Flips: 0';
+  startTimer();
+  showScreen('water-screen-game');
+}
+
+function renderGrid(){
+  const grid = document.getElementById('water-grid');
+  grid.innerHTML = '';
+  gridState.cards.forEach((c, idx)=>{
+    const div = document.createElement('div');
+    div.className = 'mcard ' + (c.type==='term'?'term':'');
+    div.dataset.idx = idx;
+    div.innerHTML = `
+      <div class="mcard-inner">
+        <div class="face face-back">💧</div>
+        <div class="face face-front">${c.text}</div>
+      </div>`;
+    div.addEventListener('click', ()=>flipCard(idx));
+    grid.appendChild(div);
+  });
+}
+
+function flipCard(idx){
+  if(gridState.lock) return;
+  const cardEl = root.querySelector(`.mcard[data-idx="${idx}"]`);
+  if(cardEl.classList.contains('flipped') || cardEl.classList.contains('matched')) return;
+  if(gridState.flipped.length===2) return;
+
+  cardEl.classList.add('flipped');
+  gridState.flipped.push(idx);
+
+  if(gridState.flipped.length===2){
+    gridState.flips++;
+    state.totalFlips++;
+    document.getElementById('water-hud-flips').textContent = 'Flips: ' + gridState.flips;
+    gridState.lock = true;
+    const [i1,i2] = gridState.flipped;
+    const c1 = gridState.cards[i1], c2 = gridState.cards[i2];
+    const isMatch = c1.pairKey===c2.pairKey && c1.type!==c2.type;
+    state.totalMatchAttempts++;
+    setTimeout(()=>{
+      const el1 = root.querySelector(`.mcard[data-idx="${i1}"]`);
+      const el2 = root.querySelector(`.mcard[data-idx="${i2}"]`);
+      if(isMatch){
+        el1.classList.add('matched');
+        el2.classList.add('matched');
+        gridState.matched += 2;
+        state.correctMatchAttempts++;
+        state.score += 10;
+        updateHud();
+        if(gridState.matched === gridState.cards.length){
+          stopTimer();
+          setTimeout(nextLevel, 600);
+        }
+      } else {
+        el1.classList.add('wrong'); el2.classList.add('wrong');
+        setTimeout(()=>{
+          el1.classList.remove('flipped','wrong');
+          el2.classList.remove('flipped','wrong');
+        }, 500);
+      }
+      gridState.flipped = [];
+      gridState.lock = false;
+    }, isMatch ? 350 : 700);
+  }
+}
+
+function startTimer(){
+  stopTimer();
+  const t0 = Date.now();
+  state.timerInterval = setInterval(()=>{
+    const secs = Math.floor((Date.now()-t0)/1000);
+    document.getElementById('water-hud-timer').textContent = 'Time: '+secs+'s';
+  }, 500);
+}
+function stopTimer(){
+  if(state.timerInterval) clearInterval(state.timerInterval);
+}
+
+function nextLevel(){
+  state.levelIndex++;
+  if(state.levelIndex < levels.length){
+    showLevelIntro();
+  } else {
+    startQuiz();
+  }
+}
+
+function startQuiz(){
+  state.quizIndex = 0;
+  state.quizCorrect = 0;
+  state.shuffledQuestions = buildShuffledQuestions();
+  showQuestion();
+  showScreen('water-screen-quiz');
+}
+
+function showQuestion(){
+  const total = state.shuffledQuestions.length;
+  const q = state.shuffledQuestions[state.quizIndex];
+  document.getElementById('water-hud-qnum').textContent = `Question ${state.quizIndex+1}/${total}`;
+  document.getElementById('water-hud-score3').textContent = `Score: ${state.score}`;
+  document.getElementById('water-progress-fill3').style.width = Math.round((state.quizIndex/total)*100)+'%';
+  document.getElementById('water-q-text').textContent = q.q;
+  const opts = document.getElementById('water-q-options');
+  opts.innerHTML = '';
+  q.options.forEach((opt, i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = opt;
+    btn.onclick = ()=>answerQuiz(i, btn);
+    opts.appendChild(btn);
+  });
+}
+
+function answerQuiz(i, btn){
+  const q = state.shuffledQuestions[state.quizIndex];
+  const allBtns = root.querySelectorAll('#water-q-options .opt-btn');
+  allBtns.forEach(b=>b.disabled = true);
+  if(i === q.answer){
+    btn.classList.add('correct');
+    state.quizCorrect++;
+    state.score += 15;
+  } else {
+    btn.classList.add('incorrect');
+    allBtns[q.answer].classList.add('correct');
+  }
+  document.getElementById('water-hud-score3').textContent = `Score: ${state.score}`;
+  setTimeout(()=>{
+    state.quizIndex++;
+    if(state.quizIndex < state.shuffledQuestions.length){
+      showQuestion();
+    } else {
+      showResults();
+    }
+  }, 1000);
+}
+
+function showResults(){
+  const totalTime = Math.round((Date.now()-state.startTime)/1000);
+  const matchAcc = Math.round((state.correctMatchAttempts/state.totalMatchAttempts)*100) || 0;
+  const quizAcc = Math.round((state.quizCorrect/state.shuffledQuestions.length)*100);
+  const overall = Math.round((matchAcc+quizAcc)/2);
+  let grade = 'C';
+  if(overall>=90) grade='A';
+  else if(overall>=80) grade='A-';
+  else if(overall>=70) grade='B';
+  else if(overall>=60) grade='C';
+  else grade='D';
+
+  document.getElementById('water-final-grade').textContent = grade;
+  document.getElementById('water-stat-score').textContent = state.score;
+  document.getElementById('water-stat-match-acc').textContent = matchAcc+'%';
+  document.getElementById('water-stat-quiz-acc').textContent = quizAcc+'%';
+  document.getElementById('water-stat-time').textContent = totalTime+'s';
+  showScreen('water-screen-results');
+}
+
+  function restart(){ stopTimer(); showScreen('water-screen-start'); }
+  window.WaterGame = {
+    startGame,
+    beginLevel,
+    restart
+  };
+})();</script>
+<script>(function(){
+  var root = document.getElementById('page-macromolecules');
+
+const levels = [
+  { name:"Monomers & Polymers", desc:"The vocabulary of building and breaking macromolecules.",
+    pairs:[
+      ["Monomer","A repeating unit that serves as a building block of larger molecules"],
+      ["Polymer","A long molecule made of many similar monomers bonded together"],
+      ["Macromolecule","A large, complex molecule such as a carbohydrate, lipid, protein, or nucleic acid"],
+      ["Dehydration synthesis","Reaction that joins two monomers together by removing a water molecule"],
+      ["Hydrolysis","Reaction that breaks a polymer apart by adding a water molecule"],
+      ["Enzyme","A specialized macromolecule that speeds up the reactions that build or break down polymers"]
+    ]
+  },
+  { name:"The Four Classes & Their Monomers", desc:"Carbohydrates, lipids, proteins, and nucleic acids.",
+    pairs:[
+      ["Carbohydrate","Polymer built from monosaccharide monomers; made of carbon, hydrogen, and oxygen"],
+      ["Lipid","The one class of macromolecule that is NOT a true polymer; unified by being hydrophobic"],
+      ["Protein","Polymer built from amino acid monomers; made of carbon, hydrogen, oxygen, and nitrogen"],
+      ["Nucleic acid","Polymer built from nucleotide monomers; made of carbon, hydrogen, oxygen, nitrogen, and phosphorus"],
+      ["Glycosidic linkage","The covalent bond that joins two monosaccharides together"],
+      ["Peptide bond","The covalent bond that joins two amino acids together"]
+    ]
+  },
+  { name:"Bonds & Building Blocks", desc:"The pieces that combine to form each type of polymer.",
+    pairs:[
+      ["Phosphodiester linkage","The bond that links the sugar-phosphate backbone of a nucleic acid"],
+      ["Monosaccharide","The simplest carbohydrate — a simple sugar like glucose"],
+      ["Amino acid","The monomer that makes up proteins; has an amino group, carboxyl group, and R group"],
+      ["Nucleotide","The monomer that makes up nucleic acids; has a sugar, phosphate, and nitrogenous base"],
+      ["Fatty acid","A long carbon skeleton with a carboxyl group; a building block of fats"],
+      ["Glycerol","A three-carbon alcohol that fats and phospholipids are built on"]
+    ]
+  }
+];
+
+const quizQuestions = [
+  { q:"When two monomers bond together and a water molecule is released, this is called ___.",
+    options:["hydrolysis","dehydration synthesis","denaturation","a glycosidic linkage"], answer:1 },
+  { q:"When a polymer is broken apart by adding a water molecule, this is called ___.",
+    options:["dehydration synthesis","condensation","hydrolysis","phosphorylation"], answer:2 },
+  { q:"Which class of macromolecule is NOT considered a true polymer?",
+    options:["Carbohydrates","Lipids","Proteins","Nucleic acids"], answer:1 },
+  { q:"The monomer of a protein is the ___.",
+    options:["nucleotide","monosaccharide","fatty acid","amino acid"], answer:3 },
+  { q:"The monomer of a nucleic acid is the ___.",
+    options:["nucleotide","amino acid","monosaccharide","glycerol"], answer:0 },
+  { q:"The monomer of a carbohydrate polymer is the ___.",
+    options:["fatty acid","monosaccharide","nucleotide","amino acid"], answer:1 },
+  { q:"Which element, in addition to carbon, hydrogen, and oxygen, is found in both proteins and nucleic acids?",
+    options:["Sulfur","Phosphorus","Nitrogen","Sodium"], answer:2 },
+  { q:"Which element is unique to nucleic acids (not found in carbohydrates, lipids, or proteins)?",
+    options:["Nitrogen","Carbon","Phosphorus","Oxygen"], answer:2 },
+  { q:"A(n) ___ speeds up the reactions that build and break down polymers.",
+    options:["monomer","enzyme","nucleotide","isotope"], answer:1 },
+  { q:"The covalent bond joining two amino acids is called a ___.",
+    options:["peptide bond","glycosidic linkage","phosphodiester linkage","hydrogen bond"], answer:0 }
+];
+
+let state = {
+  levelIndex:0, score:0, totalFlips:0, totalMatchAttempts:0, correctMatchAttempts:0,
+  startTime:0, timerInterval:null, quizIndex:0, quizCorrect:0, shuffledQuestions:[]
+};
+
+function shuffleArray(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+function buildShuffledQuestions(){
+  const qs = quizQuestions.map(q=>{
+    const opts = q.options.map((text,i)=>({text, correct:i===q.answer}));
+    shuffleArray(opts);
+    return { q:q.q, options: opts.map(o=>o.text), answer: opts.findIndex(o=>o.correct) };
+  });
+  return shuffleArray(qs);
+}
+
+function showScreen(id){
+  root.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startGame(){
+  state = {levelIndex:0, score:0, totalFlips:0, totalMatchAttempts:0, correctMatchAttempts:0,
+            startTime:Date.now(), timerInterval:null, quizIndex:0, quizCorrect:0, shuffledQuestions:[]};
+  showLevelIntro();
+}
+
+function updateHud(){
+  document.getElementById('macromolecules-hud-level').textContent = `Round ${state.levelIndex+1}/${levels.length}`;
+  document.getElementById('macromolecules-hud-score').textContent = `Score: ${state.score}`;
+  document.getElementById('macromolecules-hud-level2').textContent = `Round ${state.levelIndex+1}/${levels.length}`;
+  document.getElementById('macromolecules-hud-score2').textContent = `Score: ${state.score}`;
+  document.getElementById('macromolecules-hud-score3').textContent = `Score: ${state.score}`;
+  const pct = Math.round((state.levelIndex/levels.length)*100);
+  document.getElementById('macromolecules-progress-fill').style.width = pct+'%';
+  document.getElementById('macromolecules-progress-fill2').style.width = pct+'%';
+}
+
+function showLevelIntro(){
+  const lvl = levels[state.levelIndex];
+  document.getElementById('macromolecules-li-title').textContent = `Round ${state.levelIndex+1}: ${lvl.name}`;
+  document.getElementById('macromolecules-li-desc').textContent = lvl.desc;
+  updateHud();
+  showScreen('macromolecules-screen-levelintro');
+}
+
+let gridState = {cards:[], flipped:[], matched:0, lock:false, flips:0};
+
+function beginLevel(){
+  const lvl = levels[state.levelIndex];
+  let cards = [];
+  lvl.pairs.forEach((p, i)=>{
+    cards.push({id:i, type:'term', text:p[0], pairKey:i});
+    cards.push({id:i, type:'def', text:p[1], pairKey:i});
+  });
+  for(let i=cards.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [cards[i],cards[j]] = [cards[j],cards[i]];
+  }
+  gridState = {cards, flipped:[], matched:0, lock:false, flips:0};
+  renderGrid();
+  updateHud();
+  document.getElementById('macromolecules-hud-flips').textContent = 'Flips: 0';
+  startTimer();
+  showScreen('macromolecules-screen-game');
+}
+
+function renderGrid(){
+  const grid = document.getElementById('macromolecules-grid');
+  grid.innerHTML = '';
+  gridState.cards.forEach((c, idx)=>{
+    const div = document.createElement('div');
+    div.className = 'mcard ' + (c.type==='term'?'term':'');
+    div.dataset.idx = idx;
+    div.innerHTML = `
+      <div class="mcard-inner">
+        <div class="face face-back">🧬</div>
+        <div class="face face-front">${c.text}</div>
+      </div>`;
+    div.addEventListener('click', ()=>flipCard(idx));
+    grid.appendChild(div);
+  });
+}
+
+function flipCard(idx){
+  if(gridState.lock) return;
+  const cardEl = root.querySelector(`.mcard[data-idx="${idx}"]`);
+  if(cardEl.classList.contains('flipped') || cardEl.classList.contains('matched')) return;
+  if(gridState.flipped.length===2) return;
+
+  cardEl.classList.add('flipped');
+  gridState.flipped.push(idx);
+
+  if(gridState.flipped.length===2){
+    gridState.flips++;
+    state.totalFlips++;
+    document.getElementById('macromolecules-hud-flips').textContent = 'Flips: ' + gridState.flips;
+    gridState.lock = true;
+    const [i1,i2] = gridState.flipped;
+    const c1 = gridState.cards[i1], c2 = gridState.cards[i2];
+    const isMatch = c1.pairKey===c2.pairKey && c1.type!==c2.type;
+    state.totalMatchAttempts++;
+    setTimeout(()=>{
+      const el1 = root.querySelector(`.mcard[data-idx="${i1}"]`);
+      const el2 = root.querySelector(`.mcard[data-idx="${i2}"]`);
+      if(isMatch){
+        el1.classList.add('matched');
+        el2.classList.add('matched');
+        gridState.matched += 2;
+        state.correctMatchAttempts++;
+        state.score += 10;
+        updateHud();
+        if(gridState.matched === gridState.cards.length){
+          stopTimer();
+          setTimeout(nextLevel, 600);
+        }
+      } else {
+        el1.classList.add('wrong'); el2.classList.add('wrong');
+        setTimeout(()=>{
+          el1.classList.remove('flipped','wrong');
+          el2.classList.remove('flipped','wrong');
+        }, 500);
+      }
+      gridState.flipped = [];
+      gridState.lock = false;
+    }, isMatch ? 350 : 700);
+  }
+}
+
+function startTimer(){
+  stopTimer();
+  const t0 = Date.now();
+  state.timerInterval = setInterval(()=>{
+    const secs = Math.floor((Date.now()-t0)/1000);
+    document.getElementById('macromolecules-hud-timer').textContent = 'Time: '+secs+'s';
+  }, 500);
+}
+function stopTimer(){
+  if(state.timerInterval) clearInterval(state.timerInterval);
+}
+
+function nextLevel(){
+  state.levelIndex++;
+  if(state.levelIndex < levels.length){
+    showLevelIntro();
+  } else {
+    startQuiz();
+  }
+}
+
+function startQuiz(){
+  state.quizIndex = 0;
+  state.quizCorrect = 0;
+  state.shuffledQuestions = buildShuffledQuestions();
+  showQuestion();
+  showScreen('macromolecules-screen-quiz');
+}
+
+function showQuestion(){
+  const total = state.shuffledQuestions.length;
+  const q = state.shuffledQuestions[state.quizIndex];
+  document.getElementById('macromolecules-hud-qnum').textContent = `Question ${state.quizIndex+1}/${total}`;
+  document.getElementById('macromolecules-hud-score3').textContent = `Score: ${state.score}`;
+  document.getElementById('macromolecules-progress-fill3').style.width = Math.round((state.quizIndex/total)*100)+'%';
+  document.getElementById('macromolecules-q-text').textContent = q.q;
+  const opts = document.getElementById('macromolecules-q-options');
+  opts.innerHTML = '';
+  q.options.forEach((opt, i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = opt;
+    btn.onclick = ()=>answerQuiz(i, btn);
+    opts.appendChild(btn);
+  });
+}
+
+function answerQuiz(i, btn){
+  const q = state.shuffledQuestions[state.quizIndex];
+  const allBtns = root.querySelectorAll('#macromolecules-q-options .opt-btn');
+  allBtns.forEach(b=>b.disabled = true);
+  if(i === q.answer){
+    btn.classList.add('correct');
+    state.quizCorrect++;
+    state.score += 15;
+  } else {
+    btn.classList.add('incorrect');
+    allBtns[q.answer].classList.add('correct');
+  }
+  document.getElementById('macromolecules-hud-score3').textContent = `Score: ${state.score}`;
+  setTimeout(()=>{
+    state.quizIndex++;
+    if(state.quizIndex < state.shuffledQuestions.length){
+      showQuestion();
+    } else {
+      showResults();
+    }
+  }, 1000);
+}
+
+function showResults(){
+  const totalTime = Math.round((Date.now()-state.startTime)/1000);
+  const matchAcc = Math.round((state.correctMatchAttempts/state.totalMatchAttempts)*100) || 0;
+  const quizAcc = Math.round((state.quizCorrect/state.shuffledQuestions.length)*100);
+  const overall = Math.round((matchAcc+quizAcc)/2);
+  let grade = 'C';
+  if(overall>=90) grade='A';
+  else if(overall>=80) grade='A-';
+  else if(overall>=70) grade='B';
+  else if(overall>=60) grade='C';
+  else grade='D';
+
+  document.getElementById('macromolecules-final-grade').textContent = grade;
+  document.getElementById('macromolecules-stat-score').textContent = state.score;
+  document.getElementById('macromolecules-stat-match-acc').textContent = matchAcc+'%';
+  document.getElementById('macromolecules-stat-quiz-acc').textContent = quizAcc+'%';
+  document.getElementById('macromolecules-stat-time').textContent = totalTime+'s';
+  showScreen('macromolecules-screen-results');
+}
+
+  function restart(){ stopTimer(); showScreen('macromolecules-screen-start'); }
+  window.MacroGame = {
+    startGame,
+    beginLevel,
+    restart
+  };
+})();</script>
+<script>(function(){
+  var root = document.getElementById('page-carbslipids');
+
+const rounds = [
+  {
+    key:'carbs', title:'Round 1: Carbohydrates', desc:'Sort each example into the correct carbohydrate category.',
+    bins:[
+      {key:'mono', label:'Monosaccharide', color:'#2f9e63'},
+      {key:'di', label:'Disaccharide', color:'#2b7fc9'},
+      {key:'poly', label:'Polysaccharide', color:'#c15a1e'}
+    ],
+    cards:[
+      {text:"Glucose — the most common six-carbon sugar, a major fuel for cells.", type:'mono'},
+      {text:"Fructose — a simple sugar found in fruit.", type:'mono'},
+      {text:"Galactose — a simple sugar, part of milk sugar.", type:'mono'},
+      {text:"Sucrose — table sugar, formed from glucose + fructose joined by a glycosidic linkage.", type:'di'},
+      {text:"Lactose — the sugar found in milk, formed from two monosaccharides.", type:'di'},
+      {text:"Maltose — formed from two glucose molecules joined together.", type:'di'},
+      {text:"Starch — the storage polysaccharide found in plants, made of alpha glucose.", type:'poly'},
+      {text:"Glycogen — the highly branched storage polysaccharide found in animal liver and muscle.", type:'poly'},
+      {text:"Cellulose — the structural polysaccharide that makes up plant cell walls, made of beta glucose.", type:'poly'},
+      {text:"Chitin — the structural polysaccharide in arthropod exoskeletons and fungal cell walls.", type:'poly'}
+    ]
+  },
+  {
+    key:'lipids', title:'Round 2: Lipids', desc:'Sort each example into the correct lipid category.',
+    bins:[
+      {key:'sat', label:'Saturated Fat', color:'#d6533c'},
+      {key:'unsat', label:'Unsaturated Fat', color:'#2f9e63'},
+      {key:'phospho', label:'Phospholipid', color:'#2b7fc9'},
+      {key:'steroid', label:'Steroid', color:'#8a5fd6'}
+    ],
+    cards:[
+      {text:"Has the maximum number of hydrogens and no double bonds in its fatty acid tails; solid at room temperature.", type:'sat'},
+      {text:"Most animal fats, like the fat in meat and butter, are this type.", type:'sat'},
+      {text:"Has one or more double bonds in its fatty acid tails, which cause kinks; liquid at room temperature (an oil).", type:'unsat'},
+      {text:"Most plant and fish fats are this type.", type:'unsat'},
+      {text:"Made of glycerol, two fatty acid tails, and a phosphate group; forms the cell membrane's bilayer.", type:'phospho'},
+      {text:"Has a hydrophilic head and two hydrophobic tails.", type:'phospho'},
+      {text:"Has a carbon skeleton of four fused rings; cholesterol is an example.", type:'steroid'},
+      {text:"Many hormones (signaling molecules) are built from this type of lipid.", type:'steroid'}
+    ]
+  }
+];
+
+const quizQuestions = [
+  { q:"Starch is built from ___ glucose, giving it a helical shape.",
+    options:["beta","alpha","gamma","ionized"], answer:1 },
+  { q:"Cellulose is built from ___ glucose, giving it a straight, linear shape that humans can't digest.",
+    options:["alpha","delta","beta","hydrolyzed"], answer:2 },
+  { q:"Hydrogenation converts unsaturated fats into ___ fats by adding hydrogen.",
+    options:["saturated","trans","denatured","polar"], answer:0 },
+  { q:"Trans fats form during hydrogenation and may be even worse for cardiovascular health than ___ fats.",
+    options:["unsaturated","saturated","monounsaturated","essential"], answer:1 },
+  { q:"In a phospholipid bilayer, which part points away from water, toward the interior of the membrane?",
+    options:["The hydrophilic heads","The phosphate groups","The hydrophobic fatty acid tails","The glycerol backbone"], answer:2 },
+  { q:"Cholesterol is an example of a ___.",
+    options:["steroid","triglyceride","polysaccharide","phospholipid"], answer:0 },
+  { q:"Glycogen stores glucose in animals, mainly in the liver and ___.",
+    options:["kidneys","muscles","lungs","skin"], answer:1 },
+  { q:"The covalent bond joining two monosaccharides is called a ___ linkage.",
+    options:["peptide","phosphodiester","glycosidic","ester"], answer:2 }
+];
+
+let state = {
+  roundIndex:0, cardIndex:0, score:0, correctSorts:0, totalSorts:0,
+  startTime:0, timerInterval:null, quizIndex:0, quizCorrect:0,
+  shuffledCards:[], shuffledQuestions:[], locked:false
+};
+
+function shuffleArray(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+function buildShuffledQuestions(){
+  const qs = quizQuestions.map(q=>{
+    const opts = q.options.map((text,i)=>({text, correct:i===q.answer}));
+    shuffleArray(opts);
+    return { q:q.q, options: opts.map(o=>o.text), answer: opts.findIndex(o=>o.correct) };
+  });
+  return shuffleArray(qs);
+}
+
+function showScreen(id){
+  root.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startGame(){
+  state = {
+    roundIndex:0, cardIndex:0, score:0, correctSorts:0, totalSorts:0,
+    startTime:Date.now(), timerInterval:null, quizIndex:0, quizCorrect:0,
+    shuffledCards:[], shuffledQuestions:[], locked:false
+  };
+  showRoundIntro();
+}
+
+function updateHudTop(){
+  document.getElementById('carbslipids-hud-score0').textContent = `Score: ${state.score}`;
+  document.getElementById('carbslipids-hud-score').textContent = `Score: ${state.score}`;
+  document.getElementById('carbslipids-hud-score3').textContent = `Score: ${state.score}`;
+  const pct = Math.round((state.roundIndex/rounds.length)*100);
+  document.getElementById('carbslipids-progress-fill0').style.width = pct+'%';
+}
+
+function showRoundIntro(){
+  const r = rounds[state.roundIndex];
+  document.getElementById('carbslipids-hud-round').textContent = `Round ${state.roundIndex+1}/${rounds.length}`;
+  document.getElementById('carbslipids-ri-title').textContent = r.title;
+  document.getElementById('carbslipids-ri-desc').textContent = r.desc;
+  updateHudTop();
+  showScreen('carbslipids-screen-roundintro');
+}
+
+function beginRound(){
+  const r = rounds[state.roundIndex];
+  state.cardIndex = 0;
+  state.shuffledCards = shuffleArray(r.cards.slice());
+
+  const binRow = document.getElementById('carbslipids-bin-row');
+  binRow.innerHTML = '';
+  binRow.style.gridTemplateColumns = `repeat(${r.bins.length}, 1fr)`;
+  r.bins.forEach(b=>{
+    const btn = document.createElement('button');
+    btn.className = 'bin-btn';
+    btn.dataset.bin = b.key;
+    btn.style.background = b.color;
+    btn.textContent = b.label;
+    btn.onclick = ()=>answerSort(b.key, btn);
+    binRow.appendChild(btn);
+  });
+
+  startTimer();
+  showCard();
+  showScreen('carbslipids-screen-sort');
+}
+
+function showCard(){
+  const r = rounds[state.roundIndex];
+  const total = state.shuffledCards.length;
+  const card = state.shuffledCards[state.cardIndex];
+  document.getElementById('carbslipids-hud-progress').textContent = `Card ${state.cardIndex+1}/${total}`;
+  document.getElementById('carbslipids-hud-score').textContent = `Score: ${state.score}`;
+  const overallPct = Math.round(((state.roundIndex + state.cardIndex/total) / rounds.length) * 100);
+  document.getElementById('carbslipids-progress-fill').style.width = overallPct+'%';
+  document.getElementById('carbslipids-card-text').textContent = card.text;
+  document.getElementById('carbslipids-feedback-line').textContent = '';
+  document.getElementById('carbslipids-feedback-line').className = 'carbslipids-feedback-line';
+  root.querySelectorAll('.bin-btn').forEach(b=>{
+    b.disabled = false;
+    b.classList.remove('correct-flash','incorrect-flash');
+  });
+  state.locked = false;
+}
+
+function answerSort(type, btn){
+  if(state.locked) return;
+  state.locked = true;
+  const r = rounds[state.roundIndex];
+  const card = state.shuffledCards[state.cardIndex];
+  state.totalSorts++;
+  root.querySelectorAll('.bin-btn').forEach(b=>b.disabled = true);
+  const fb = document.getElementById('carbslipids-feedback-line');
+  const correctBin = r.bins.find(b=>b.key===card.type);
+
+  if(type === card.type){
+    btn.classList.add('correct-flash');
+    state.correctSorts++;
+    state.score += 10;
+    fb.textContent = `Correct — that's a ${correctBin.label}!`;
+    fb.classList.add('good');
+  } else {
+    btn.classList.add('incorrect-flash');
+    root.querySelector(`.bin-btn[data-bin="${card.type}"]`).classList.add('correct-flash');
+    fb.textContent = `Not quite — that's actually a ${correctBin.label}.`;
+    fb.classList.add('bad');
+  }
+  document.getElementById('carbslipids-hud-score').textContent = `Score: ${state.score}`;
+
+  setTimeout(()=>{
+    state.cardIndex++;
+    if(state.cardIndex < state.shuffledCards.length){
+      showCard();
+    } else {
+      stopTimer();
+      state.roundIndex++;
+      if(state.roundIndex < rounds.length){
+        showRoundIntro();
+      } else {
+        startQuiz();
+      }
+    }
+  }, 1300);
+}
+
+function startTimer(){
+  stopTimer();
+  const t0 = Date.now();
+  state.timerInterval = setInterval(()=>{
+    const secs = Math.floor((Date.now()-t0)/1000);
+    document.getElementById('carbslipids-hud-timer').textContent = 'Time: '+secs+'s';
+  }, 500);
+}
+function stopTimer(){
+  if(state.timerInterval) clearInterval(state.timerInterval);
+}
+
+function startQuiz(){
+  stopTimer();
+  state.quizIndex = 0;
+  state.quizCorrect = 0;
+  state.shuffledQuestions = buildShuffledQuestions();
+  showQuestion();
+  showScreen('carbslipids-screen-quiz');
+}
+
+function showQuestion(){
+  const total = state.shuffledQuestions.length;
+  const q = state.shuffledQuestions[state.quizIndex];
+  document.getElementById('carbslipids-hud-qnum').textContent = `Question ${state.quizIndex+1}/${total}`;
+  document.getElementById('carbslipids-hud-score3').textContent = `Score: ${state.score}`;
+  document.getElementById('carbslipids-progress-fill3').style.width = Math.round((state.quizIndex/total)*100)+'%';
+  document.getElementById('carbslipids-q-text').textContent = q.q;
+  const opts = document.getElementById('carbslipids-q-options');
+  opts.innerHTML = '';
+  q.options.forEach((opt, i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = opt;
+    btn.onclick = ()=>answerQuiz(i, btn);
+    opts.appendChild(btn);
+  });
+}
+
+function answerQuiz(i, btn){
+  const q = state.shuffledQuestions[state.quizIndex];
+  const allBtns = root.querySelectorAll('#carbslipids-q-options .opt-btn');
+  allBtns.forEach(b=>b.disabled = true);
+  if(i === q.answer){
+    btn.classList.add('correct');
+    state.quizCorrect++;
+    state.score += 15;
+  } else {
+    btn.classList.add('incorrect');
+    allBtns[q.answer].classList.add('correct');
+  }
+  document.getElementById('carbslipids-hud-score3').textContent = `Score: ${state.score}`;
+  setTimeout(()=>{
+    state.quizIndex++;
+    if(state.quizIndex < state.shuffledQuestions.length){
+      showQuestion();
+    } else {
+      showResults();
+    }
+  }, 1000);
+}
+
+function showResults(){
+  const totalTime = Math.round((Date.now()-state.startTime)/1000);
+  const sortAcc = Math.round((state.correctSorts/state.totalSorts)*100) || 0;
+  const quizAcc = Math.round((state.quizCorrect/state.shuffledQuestions.length)*100);
+  const overall = Math.round((sortAcc+quizAcc)/2);
+  let grade = 'C';
+  if(overall>=90) grade='A';
+  else if(overall>=80) grade='A-';
+  else if(overall>=70) grade='B';
+  else if(overall>=60) grade='C';
+  else grade='D';
+
+  document.getElementById('carbslipids-final-grade').textContent = grade;
+  document.getElementById('carbslipids-stat-score').textContent = state.score;
+  document.getElementById('carbslipids-stat-sort-acc').textContent = sortAcc+'%';
+  document.getElementById('carbslipids-stat-quiz-acc').textContent = quizAcc+'%';
+  document.getElementById('carbslipids-stat-time').textContent = totalTime+'s';
+  showScreen('carbslipids-screen-results');
+}
+
+  function restart(){ stopTimer(); showScreen('carbslipids-screen-start'); }
+  window.CarbsLipidsGame = {
+    startGame,
+    beginRound,
+    answerSort,
+    restart
+  };
+})();</script>
+<script>(function(){
+  var root = document.getElementById('page-protein');
+
+const sortRound = {
+  title:"Round 1: Levels of Protein Structure",
+  desc:"Sort each description into the correct level of protein structure.",
+  bins:[
+    {key:'primary', label:'Primary', color:'#2f9e63'},
+    {key:'secondary', label:'Secondary', color:'#2b7fc9'},
+    {key:'tertiary', label:'Tertiary', color:'#c15a1e'},
+    {key:'quaternary', label:'Quaternary', color:'#8a5fd6'}
+  ],
+  cards:[
+    {text:"The unique linear sequence of amino acids in a polypeptide, determined by genetic information.", type:'primary'},
+    {text:"Like the order of letters in a long word — the most basic level of protein structure.", type:'primary'},
+    {text:"A single amino acid substitution here causes sickle-cell disease.", type:'primary'},
+    {text:"Coils and folds in the polypeptide chain, held together by hydrogen bonds along the backbone.", type:'secondary'},
+    {text:"Includes structures called the alpha helix and the beta pleated sheet.", type:'secondary'},
+    {text:"The overall 3D shape of a single polypeptide, formed by interactions between R groups (side chains).", type:'tertiary'},
+    {text:"Includes hydrogen bonds, ionic bonds, hydrophobic interactions, van der Waals interactions, and disulfide bridges.", type:'tertiary'},
+    {text:"Results when a protein is made of two or more polypeptide chains joined together.", type:'quaternary'},
+    {text:"Hemoglobin, made of four polypeptide subunits (two alpha and two beta), is an example.", type:'quaternary'},
+    {text:"Collagen, made of three polypeptides coiled together like a rope, is an example.", type:'quaternary'}
+  ]
+};
+
+const matchRound = {
+  title:"Round 2: Protein Functions",
+  desc:"Match each protein function type to its example.",
+  pairs:[
+    ["Enzymatic protein","Speeds up (catalyzes) chemical reactions; example: digestive enzymes"],
+    ["Defensive protein","Protects against disease; example: antibodies"],
+    ["Storage protein","Stores amino acids; example: casein in milk, ovalbumin in egg white"],
+    ["Transport protein","Carries substances around the body; example: hemoglobin carries oxygen"],
+    ["Hormonal protein","Coordinates the body's activities; example: insulin regulates blood sugar"],
+    ["Receptor protein","Receives signals from outside the cell; example: receptors on nerve cells"],
+    ["Motor protein","Enables movement; example: actin and myosin in muscle contraction"],
+    ["Structural protein","Provides support; example: collagen and keratin"]
+  ]
+};
+
+const quizQuestions = [
+  { q:"Loss of a protein's native structure due to heat, pH, or salt changes is called ___.",
+    options:["hydrolysis","denaturation","dehydration synthesis","glycosylation"], answer:1 },
+  { q:"A denatured protein is ___.",
+    options:["more active than before","biologically inactive","always toxic","unaffected in function"], answer:1 },
+  { q:"Sickle-cell disease results from a change in a protein's ___ structure.",
+    options:["quaternary","tertiary","secondary","primary"], answer:3 },
+  { q:"The alpha helix and beta pleated sheet are examples of ___ structure.",
+    options:["primary","secondary","tertiary","quaternary"], answer:1 },
+  { q:"Disulfide bridges are strong covalent bonds that reinforce a protein's ___ structure.",
+    options:["primary","secondary","tertiary","quaternary"], answer:2 },
+  { q:"Hemoglobin's four polypeptide subunits show that it has ___ structure.",
+    options:["primary","secondary","tertiary","quaternary"], answer:3 },
+  { q:"Which protein function type includes antibodies?",
+    options:["Transport","Defensive","Storage","Hormonal"], answer:1 },
+  { q:"Which protein function type includes actin and myosin?",
+    options:["Structural","Receptor","Motor","Enzymatic"], answer:2 }
+];
+
+const phases = ['sort','match'];
+
+let state = {
+  phaseIndex:0, score:0,
+  correctSorts:0, totalSorts:0,
+  totalFlips:0, totalMatchAttempts:0, correctMatchAttempts:0,
+  startTime:0, timerInterval:null,
+  quizIndex:0, quizCorrect:0, shuffledQuestions:[],
+  shuffledCards:[], cardIndex:0, locked:false
+};
+let gridState = {cards:[], flipped:[], matched:0, lock:false, flips:0};
+
+function shuffleArray(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+function buildShuffledQuestions(){
+  const qs = quizQuestions.map(q=>{
+    const opts = q.options.map((text,i)=>({text, correct:i===q.answer}));
+    shuffleArray(opts);
+    return { q:q.q, options: opts.map(o=>o.text), answer: opts.findIndex(o=>o.correct) };
+  });
+  return shuffleArray(qs);
+}
+
+function showScreen(id){
+  root.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startGame(){
+  state = {
+    phaseIndex:0, score:0,
+    correctSorts:0, totalSorts:0,
+    totalFlips:0, totalMatchAttempts:0, correctMatchAttempts:0,
+    startTime:Date.now(), timerInterval:null,
+    quizIndex:0, quizCorrect:0, shuffledQuestions:[],
+    shuffledCards:[], cardIndex:0, locked:false
+  };
+  showRoundIntro();
+}
+
+function updateScoreTags(){
+  document.getElementById('protein-hud-score0').textContent = `Score: ${state.score}`;
+  document.getElementById('protein-hud-score').textContent = `Score: ${state.score}`;
+  document.getElementById('protein-hud-score2').textContent = `Score: ${state.score}`;
+  document.getElementById('protein-hud-score3').textContent = `Score: ${state.score}`;
+}
+
+function showRoundIntro(){
+  const phase = phases[state.phaseIndex];
+  const pct = Math.round((state.phaseIndex/phases.length)*100);
+  document.getElementById('protein-hud-round').textContent = `Round ${state.phaseIndex+1}/${phases.length}`;
+  document.getElementById('protein-progress-fill0').style.width = pct+'%';
+  if(phase === 'sort'){
+    document.getElementById('protein-ri-title').textContent = sortRound.title;
+    document.getElementById('protein-ri-desc').textContent = sortRound.desc;
+  } else {
+    document.getElementById('protein-ri-title').textContent = matchRound.title;
+    document.getElementById('protein-ri-desc').textContent = matchRound.desc;
+  }
+  updateScoreTags();
+  showScreen('protein-screen-roundintro');
+}
+
+function beginCurrentRound(){
+  const phase = phases[state.phaseIndex];
+  if(phase === 'sort') beginSort();
+  else beginMatch();
+}
+
+/* ---------- SORT ROUND ---------- */
+function beginSort(){
+  state.cardIndex = 0;
+  state.shuffledCards = shuffleArray(sortRound.cards.slice());
+  const binRow = document.getElementById('protein-bin-row');
+  binRow.innerHTML = '';
+  binRow.style.gridTemplateColumns = `repeat(${sortRound.bins.length}, 1fr)`;
+  sortRound.bins.forEach(b=>{
+    const btn = document.createElement('button');
+    btn.className = 'bin-btn';
+    btn.dataset.bin = b.key;
+    btn.style.background = b.color;
+    btn.textContent = b.label;
+    btn.onclick = ()=>answerSort(b.key, btn);
+    binRow.appendChild(btn);
+  });
+  startTimer('protein-hud-timer');
+  showSortCard();
+  showScreen('protein-screen-sort');
+}
+
+function showSortCard(){
+  const total = state.shuffledCards.length;
+  const card = state.shuffledCards[state.cardIndex];
+  document.getElementById('protein-hud-progress').textContent = `Card ${state.cardIndex+1}/${total}`;
+  document.getElementById('protein-hud-score').textContent = `Score: ${state.score}`;
+  document.getElementById('protein-progress-fill').style.width = Math.round((state.cardIndex/total)*100)+'%';
+  document.getElementById('protein-card-text').textContent = card.text;
+  document.getElementById('protein-feedback-line').textContent = '';
+  document.getElementById('protein-feedback-line').className = 'protein-feedback-line';
+  root.querySelectorAll('.bin-btn').forEach(b=>{
+    b.disabled = false;
+    b.classList.remove('correct-flash','incorrect-flash');
+  });
+  state.locked = false;
+}
+
+function answerSort(type, btn){
+  if(state.locked) return;
+  state.locked = true;
+  const card = state.shuffledCards[state.cardIndex];
+  state.totalSorts++;
+  root.querySelectorAll('.bin-btn').forEach(b=>b.disabled = true);
+  const fb = document.getElementById('protein-feedback-line');
+  const correctBin = sortRound.bins.find(b=>b.key===card.type);
+
+  if(type === card.type){
+    btn.classList.add('correct-flash');
+    state.correctSorts++;
+    state.score += 10;
+    fb.textContent = `Correct — that's ${correctBin.label} structure!`;
+    fb.classList.add('good');
+  } else {
+    btn.classList.add('incorrect-flash');
+    root.querySelector(`.bin-btn[data-bin="${card.type}"]`).classList.add('correct-flash');
+    fb.textContent = `Not quite — that's actually ${correctBin.label} structure.`;
+    fb.classList.add('bad');
+  }
+  document.getElementById('protein-hud-score').textContent = `Score: ${state.score}`;
+
+  setTimeout(()=>{
+    state.cardIndex++;
+    if(state.cardIndex < state.shuffledCards.length){
+      showSortCard();
+    } else {
+      stopTimer();
+      state.phaseIndex++;
+      if(state.phaseIndex < phases.length){
+        showRoundIntro();
+      } else {
+        startQuiz();
+      }
+    }
+  }, 1300);
+}
+
+/* ---------- MEMORY MATCH ROUND ---------- */
+function beginMatch(){
+  let cards = [];
+  matchRound.pairs.forEach((p, i)=>{
+    cards.push({id:i, type:'term', text:p[0], pairKey:i});
+    cards.push({id:i, type:'def', text:p[1], pairKey:i});
+  });
+  cards = shuffleArray(cards);
+  gridState = {cards, flipped:[], matched:0, lock:false, flips:0};
+  renderGrid();
+  document.getElementById('protein-hud-round2').textContent = matchRound.title;
+  document.getElementById('protein-hud-flips').textContent = 'Flips: 0';
+  updateScoreTags();
+  startTimer('protein-hud-timer2');
+  showScreen('protein-screen-match');
+}
+
+function renderGrid(){
+  const grid = document.getElementById('protein-grid');
+  grid.innerHTML = '';
+  gridState.cards.forEach((c, idx)=>{
+    const div = document.createElement('div');
+    div.className = 'mcard ' + (c.type==='term'?'term':'');
+    div.dataset.idx = idx;
+    div.innerHTML = `
+      <div class="mcard-inner">
+        <div class="face face-back">🧵</div>
+        <div class="face face-front">${c.text}</div>
+      </div>`;
+    div.addEventListener('click', ()=>flipCard(idx));
+    grid.appendChild(div);
+  });
+}
+
+function flipCard(idx){
+  if(gridState.lock) return;
+  const cardEl = root.querySelector(`.mcard[data-idx="${idx}"]`);
+  if(cardEl.classList.contains('flipped') || cardEl.classList.contains('matched')) return;
+  if(gridState.flipped.length===2) return;
+
+  cardEl.classList.add('flipped');
+  gridState.flipped.push(idx);
+
+  if(gridState.flipped.length===2){
+    gridState.flips++;
+    state.totalFlips++;
+    document.getElementById('protein-hud-flips').textContent = 'Flips: ' + gridState.flips;
+    gridState.lock = true;
+    const [i1,i2] = gridState.flipped;
+    const c1 = gridState.cards[i1], c2 = gridState.cards[i2];
+    const isMatch = c1.pairKey===c2.pairKey && c1.type!==c2.type;
+    state.totalMatchAttempts++;
+    setTimeout(()=>{
+      const el1 = root.querySelector(`.mcard[data-idx="${i1}"]`);
+      const el2 = root.querySelector(`.mcard[data-idx="${i2}"]`);
+      if(isMatch){
+        el1.classList.add('matched');
+        el2.classList.add('matched');
+        gridState.matched += 2;
+        state.correctMatchAttempts++;
+        state.score += 10;
+        updateScoreTags();
+        if(gridState.matched === gridState.cards.length){
+          stopTimer();
+          setTimeout(()=>{
+            state.phaseIndex++;
+            if(state.phaseIndex < phases.length){
+              showRoundIntro();
+            } else {
+              startQuiz();
+            }
+          }, 600);
+        }
+      } else {
+        el1.classList.add('wrong'); el2.classList.add('wrong');
+        setTimeout(()=>{
+          el1.classList.remove('flipped','wrong');
+          el2.classList.remove('flipped','wrong');
+        }, 500);
+      }
+      gridState.flipped = [];
+      gridState.lock = false;
+    }, isMatch ? 350 : 700);
+  }
+}
+
+/* ---------- TIMER ---------- */
+function startTimer(tagId){
+  stopTimer();
+  const t0 = Date.now();
+  state.timerInterval = setInterval(()=>{
+    const secs = Math.floor((Date.now()-t0)/1000);
+    const el = document.getElementById(tagId);
+    if(el) el.textContent = 'Time: '+secs+'s';
+  }, 500);
+}
+function stopTimer(){
+  if(state.timerInterval) clearInterval(state.timerInterval);
+}
+
+/* ---------- QUIZ ---------- */
+function startQuiz(){
+  stopTimer();
+  state.quizIndex = 0;
+  state.quizCorrect = 0;
+  state.shuffledQuestions = buildShuffledQuestions();
+  showQuestion();
+  showScreen('protein-screen-quiz');
+}
+
+function showQuestion(){
+  const total = state.shuffledQuestions.length;
+  const q = state.shuffledQuestions[state.quizIndex];
+  document.getElementById('protein-hud-qnum').textContent = `Question ${state.quizIndex+1}/${total}`;
+  document.getElementById('protein-hud-score3').textContent = `Score: ${state.score}`;
+  document.getElementById('protein-progress-fill3').style.width = Math.round((state.quizIndex/total)*100)+'%';
+  document.getElementById('protein-q-text').textContent = q.q;
+  const opts = document.getElementById('protein-q-options');
+  opts.innerHTML = '';
+  q.options.forEach((opt, i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = opt;
+    btn.onclick = ()=>answerQuiz(i, btn);
+    opts.appendChild(btn);
+  });
+}
+
+function answerQuiz(i, btn){
+  const q = state.shuffledQuestions[state.quizIndex];
+  const allBtns = root.querySelectorAll('#protein-q-options .opt-btn');
+  allBtns.forEach(b=>b.disabled = true);
+  if(i === q.answer){
+    btn.classList.add('correct');
+    state.quizCorrect++;
+    state.score += 15;
+  } else {
+    btn.classList.add('incorrect');
+    allBtns[q.answer].classList.add('correct');
+  }
+  document.getElementById('protein-hud-score3').textContent = `Score: ${state.score}`;
+  setTimeout(()=>{
+    state.quizIndex++;
+    if(state.quizIndex < state.shuffledQuestions.length){
+      showQuestion();
+    } else {
+      showResults();
+    }
+  }, 1000);
+}
+
+function showResults(){
+  const sortAcc = Math.round((state.correctSorts/state.totalSorts)*100) || 0;
+  const matchAcc = Math.round((state.correctMatchAttempts/state.totalMatchAttempts)*100) || 0;
+  const quizAcc = Math.round((state.quizCorrect/state.shuffledQuestions.length)*100);
+  const overall = Math.round((sortAcc+matchAcc+quizAcc)/3);
+  let grade = 'C';
+  if(overall>=90) grade='A';
+  else if(overall>=80) grade='A-';
+  else if(overall>=70) grade='B';
+  else if(overall>=60) grade='C';
+  else grade='D';
+
+  document.getElementById('protein-final-grade').textContent = grade;
+  document.getElementById('protein-stat-score').textContent = state.score;
+  document.getElementById('protein-stat-sort-acc').textContent = sortAcc+'%';
+  document.getElementById('protein-stat-match-acc').textContent = matchAcc+'%';
+  document.getElementById('protein-stat-quiz-acc').textContent = quizAcc+'%';
+  showScreen('protein-screen-results');
+}
+
+  function restart(){ stopTimer(); showScreen('protein-screen-start'); }
+  window.ProteinGame = {
+    startGame,
+    beginCurrentRound,
+    answerSort,
+    restart
+  };
+})();</script>
+<script>(function(){
+  var root = document.getElementById('page-nucleic');
+
+const matchRound = {
+  title:"Round 1: Nucleic Acid Vocabulary",
+  desc:"Match each term to its definition.",
+  pairs:[
+    ["Nucleotide","The monomer of a nucleic acid; made of a sugar, phosphate group, and nitrogenous base"],
+    ["Nucleoside","A nitrogenous base bonded to a sugar (no phosphate)"],
+    ["Nitrogenous base","The nitrogen-containing ring structure attached to a nucleotide's sugar"],
+    ["Purine","A nitrogenous base with a double-ring structure (adenine and guanine)"],
+    ["Pyrimidine","A nitrogenous base with a single-ring structure (cytosine, thymine, and uracil)"],
+    ["Phosphodiester linkage","The bond that connects nucleotides into a sugar-phosphate backbone"],
+    ["Double helix","The twisted-ladder shape formed by two antiparallel DNA strands"],
+    ["Complementary base pairing","The pairing rule where A binds T (or U) and G binds C"]
+  ]
+};
+
+const sortRound = {
+  title:"Round 2: Base Pairing",
+  desc:"Sort each base into its correct complementary pairing partner.",
+  bins:[
+    {key:'A', label:'Adenine', color:'#2f9e63'},
+    {key:'T', label:'Thymine', color:'#c15a1e'},
+    {key:'C', label:'Cytosine', color:'#2b7fc9'},
+    {key:'G', label:'Guanine', color:'#8a5fd6'},
+    {key:'U', label:'Uracil', color:'#d6533c'}
+  ],
+  cards:[
+    {text:"DNA: what base pairs with Adenine (A)?", type:'T'},
+    {text:"DNA: what base pairs with Thymine (T)?", type:'A'},
+    {text:"What base pairs with Guanine (G)?", type:'C'},
+    {text:"What base pairs with Cytosine (C)?", type:'G'},
+    {text:"RNA: what base pairs with Adenine (A) instead of thymine?", type:'U'},
+    {text:"RNA: what base pairs with Uracil (U)?", type:'A'},
+    {text:"This base replaces thymine in RNA.", type:'U'},
+    {text:"This pyrimidine has a single-ring structure and pairs with guanine.", type:'C'},
+    {text:"This purine has a double-ring structure and pairs with cytosine.", type:'G'},
+    {text:"This base is only found in DNA, never RNA.", type:'T'}
+  ]
+};
+
+const quizQuestions = [
+  { q:"The sugar found in DNA is ___.",
+    options:["ribose","deoxyribose","glucose","fructose"], answer:1 },
+  { q:"The sugar found in RNA is ___.",
+    options:["deoxyribose","ribose","galactose","sucrose"], answer:1 },
+  { q:"DNA is usually ___-stranded.",
+    options:["single","double","triple","not stranded"], answer:1 },
+  { q:"RNA is usually ___-stranded.",
+    options:["double","triple","single","not stranded"], answer:2 },
+  { q:"The two antiparallel strands of DNA form a shape called a ___.",
+    options:["pleated sheet","double helix","glycosidic ring","polypeptide"], answer:1 },
+  { q:"The flow of information DNA → RNA → protein is called the ___.",
+    options:["central dogma","hydrolysis pathway","Krebs cycle","genetic code"], answer:0 },
+  { q:"Adenine and guanine are classified as ___ because they have a double-ring structure.",
+    options:["pyrimidines","purines","nucleosides","phosphates"], answer:1 },
+  { q:"Cytosine, thymine, and uracil are classified as ___ because they have a single-ring structure.",
+    options:["purines","pyrimidines","nucleotides","isotopes"], answer:1 }
+];
+
+const phases = ['match','sort'];
+
+let state = {
+  phaseIndex:0, score:0,
+  correctSorts:0, totalSorts:0,
+  totalFlips:0, totalMatchAttempts:0, correctMatchAttempts:0,
+  startTime:0, timerInterval:null,
+  quizIndex:0, quizCorrect:0, shuffledQuestions:[],
+  shuffledCards:[], cardIndex:0, locked:false
+};
+let gridState = {cards:[], flipped:[], matched:0, lock:false, flips:0};
+
+function shuffleArray(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+function buildShuffledQuestions(){
+  const qs = quizQuestions.map(q=>{
+    const opts = q.options.map((text,i)=>({text, correct:i===q.answer}));
+    shuffleArray(opts);
+    return { q:q.q, options: opts.map(o=>o.text), answer: opts.findIndex(o=>o.correct) };
+  });
+  return shuffleArray(qs);
+}
+
+function showScreen(id){
+  root.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startGame(){
+  state = {
+    phaseIndex:0, score:0,
+    correctSorts:0, totalSorts:0,
+    totalFlips:0, totalMatchAttempts:0, correctMatchAttempts:0,
+    startTime:Date.now(), timerInterval:null,
+    quizIndex:0, quizCorrect:0, shuffledQuestions:[],
+    shuffledCards:[], cardIndex:0, locked:false
+  };
+  showRoundIntro();
+}
+
+function updateScoreTags(){
+  document.getElementById('nucleic-hud-score0').textContent = `Score: ${state.score}`;
+  document.getElementById('nucleic-hud-score').textContent = `Score: ${state.score}`;
+  document.getElementById('nucleic-hud-score2').textContent = `Score: ${state.score}`;
+  document.getElementById('nucleic-hud-score3').textContent = `Score: ${state.score}`;
+}
+
+function showRoundIntro(){
+  const phase = phases[state.phaseIndex];
+  const pct = Math.round((state.phaseIndex/phases.length)*100);
+  document.getElementById('nucleic-hud-round').textContent = `Round ${state.phaseIndex+1}/${phases.length}`;
+  document.getElementById('nucleic-progress-fill0').style.width = pct+'%';
+  if(phase === 'match'){
+    document.getElementById('nucleic-ri-title').textContent = matchRound.title;
+    document.getElementById('nucleic-ri-desc').textContent = matchRound.desc;
+  } else {
+    document.getElementById('nucleic-ri-title').textContent = sortRound.title;
+    document.getElementById('nucleic-ri-desc').textContent = sortRound.desc;
+  }
+  updateScoreTags();
+  showScreen('nucleic-screen-roundintro');
+}
+
+function beginCurrentRound(){
+  const phase = phases[state.phaseIndex];
+  if(phase === 'match') beginMatch();
+  else beginSort();
+}
+
+/* ---------- MEMORY MATCH ROUND ---------- */
+function beginMatch(){
+  let cards = [];
+  matchRound.pairs.forEach((p, i)=>{
+    cards.push({id:i, type:'term', text:p[0], pairKey:i});
+    cards.push({id:i, type:'def', text:p[1], pairKey:i});
+  });
+  cards = shuffleArray(cards);
+  gridState = {cards, flipped:[], matched:0, lock:false, flips:0};
+  renderGrid();
+  document.getElementById('nucleic-hud-round2').textContent = matchRound.title;
+  document.getElementById('nucleic-hud-flips').textContent = 'Flips: 0';
+  updateScoreTags();
+  startTimer('nucleic-hud-timer2');
+  showScreen('nucleic-screen-match');
+}
+
+function renderGrid(){
+  const grid = document.getElementById('nucleic-grid');
+  grid.innerHTML = '';
+  gridState.cards.forEach((c, idx)=>{
+    const div = document.createElement('div');
+    div.className = 'mcard ' + (c.type==='term'?'term':'');
+    div.dataset.idx = idx;
+    div.innerHTML = `
+      <div class="mcard-inner">
+        <div class="face face-back">🧬</div>
+        <div class="face face-front">${c.text}</div>
+      </div>`;
+    div.addEventListener('click', ()=>flipCard(idx));
+    grid.appendChild(div);
+  });
+}
+
+function flipCard(idx){
+  if(gridState.lock) return;
+  const cardEl = root.querySelector(`.mcard[data-idx="${idx}"]`);
+  if(cardEl.classList.contains('flipped') || cardEl.classList.contains('matched')) return;
+  if(gridState.flipped.length===2) return;
+
+  cardEl.classList.add('flipped');
+  gridState.flipped.push(idx);
+
+  if(gridState.flipped.length===2){
+    gridState.flips++;
+    state.totalFlips++;
+    document.getElementById('nucleic-hud-flips').textContent = 'Flips: ' + gridState.flips;
+    gridState.lock = true;
+    const [i1,i2] = gridState.flipped;
+    const c1 = gridState.cards[i1], c2 = gridState.cards[i2];
+    const isMatch = c1.pairKey===c2.pairKey && c1.type!==c2.type;
+    state.totalMatchAttempts++;
+    setTimeout(()=>{
+      const el1 = root.querySelector(`.mcard[data-idx="${i1}"]`);
+      const el2 = root.querySelector(`.mcard[data-idx="${i2}"]`);
+      if(isMatch){
+        el1.classList.add('matched');
+        el2.classList.add('matched');
+        gridState.matched += 2;
+        state.correctMatchAttempts++;
+        state.score += 10;
+        updateScoreTags();
+        if(gridState.matched === gridState.cards.length){
+          stopTimer();
+          setTimeout(()=>{
+            state.phaseIndex++;
+            if(state.phaseIndex < phases.length){
+              showRoundIntro();
+            } else {
+              startQuiz();
+            }
+          }, 600);
+        }
+      } else {
+        el1.classList.add('wrong'); el2.classList.add('wrong');
+        setTimeout(()=>{
+          el1.classList.remove('flipped','wrong');
+          el2.classList.remove('flipped','wrong');
+        }, 500);
+      }
+      gridState.flipped = [];
+      gridState.lock = false;
+    }, isMatch ? 350 : 700);
+  }
+}
+
+/* ---------- SORT ROUND (base pairing) ---------- */
+function beginSort(){
+  state.cardIndex = 0;
+  state.shuffledCards = shuffleArray(sortRound.cards.slice());
+  const binRow = document.getElementById('nucleic-bin-row');
+  binRow.innerHTML = '';
+  binRow.style.gridTemplateColumns = `repeat(${sortRound.bins.length}, 1fr)`;
+  sortRound.bins.forEach(b=>{
+    const btn = document.createElement('button');
+    btn.className = 'bin-btn';
+    btn.dataset.bin = b.key;
+    btn.style.background = b.color;
+    btn.textContent = b.label;
+    btn.onclick = ()=>answerSort(b.key, btn);
+    binRow.appendChild(btn);
+  });
+  startTimer('nucleic-hud-timer');
+  showSortCard();
+  showScreen('nucleic-screen-sort');
+}
+
+function showSortCard(){
+  const total = state.shuffledCards.length;
+  const card = state.shuffledCards[state.cardIndex];
+  document.getElementById('nucleic-hud-progress').textContent = `Card ${state.cardIndex+1}/${total}`;
+  document.getElementById('nucleic-hud-score').textContent = `Score: ${state.score}`;
+  document.getElementById('nucleic-progress-fill').style.width = Math.round((state.cardIndex/total)*100)+'%';
+  document.getElementById('nucleic-card-text').textContent = card.text;
+  document.getElementById('nucleic-feedback-line').textContent = '';
+  document.getElementById('nucleic-feedback-line').className = 'nucleic-feedback-line';
+  root.querySelectorAll('.bin-btn').forEach(b=>{
+    b.disabled = false;
+    b.classList.remove('correct-flash','incorrect-flash');
+  });
+  state.locked = false;
+}
+
+function answerSort(type, btn){
+  if(state.locked) return;
+  state.locked = true;
+  const card = state.shuffledCards[state.cardIndex];
+  state.totalSorts++;
+  root.querySelectorAll('.bin-btn').forEach(b=>b.disabled = true);
+  const fb = document.getElementById('nucleic-feedback-line');
+  const correctBin = sortRound.bins.find(b=>b.key===card.type);
+
+  if(type === card.type){
+    btn.classList.add('correct-flash');
+    state.correctSorts++;
+    state.score += 10;
+    fb.textContent = `Correct — ${correctBin.label}!`;
+    fb.classList.add('good');
+  } else {
+    btn.classList.add('incorrect-flash');
+    root.querySelector(`.bin-btn[data-bin="${card.type}"]`).classList.add('correct-flash');
+    fb.textContent = `Not quite — the answer is ${correctBin.label}.`;
+    fb.classList.add('bad');
+  }
+  document.getElementById('nucleic-hud-score').textContent = `Score: ${state.score}`;
+
+  setTimeout(()=>{
+    state.cardIndex++;
+    if(state.cardIndex < state.shuffledCards.length){
+      showSortCard();
+    } else {
+      stopTimer();
+      state.phaseIndex++;
+      if(state.phaseIndex < phases.length){
+        showRoundIntro();
+      } else {
+        startQuiz();
+      }
+    }
+  }, 1300);
+}
+
+/* ---------- TIMER ---------- */
+function startTimer(tagId){
+  stopTimer();
+  const t0 = Date.now();
+  state.timerInterval = setInterval(()=>{
+    const secs = Math.floor((Date.now()-t0)/1000);
+    const el = document.getElementById(tagId);
+    if(el) el.textContent = 'Time: '+secs+'s';
+  }, 500);
+}
+function stopTimer(){
+  if(state.timerInterval) clearInterval(state.timerInterval);
+}
+
+/* ---------- QUIZ ---------- */
+function startQuiz(){
+  stopTimer();
+  state.quizIndex = 0;
+  state.quizCorrect = 0;
+  state.shuffledQuestions = buildShuffledQuestions();
+  showQuestion();
+  showScreen('nucleic-screen-quiz');
+}
+
+function showQuestion(){
+  const total = state.shuffledQuestions.length;
+  const q = state.shuffledQuestions[state.quizIndex];
+  document.getElementById('nucleic-hud-qnum').textContent = `Question ${state.quizIndex+1}/${total}`;
+  document.getElementById('nucleic-hud-score3').textContent = `Score: ${state.score}`;
+  document.getElementById('nucleic-progress-fill3').style.width = Math.round((state.quizIndex/total)*100)+'%';
+  document.getElementById('nucleic-q-text').textContent = q.q;
+  const opts = document.getElementById('nucleic-q-options');
+  opts.innerHTML = '';
+  q.options.forEach((opt, i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = opt;
+    btn.onclick = ()=>answerQuiz(i, btn);
+    opts.appendChild(btn);
+  });
+}
+
+function answerQuiz(i, btn){
+  const q = state.shuffledQuestions[state.quizIndex];
+  const allBtns = root.querySelectorAll('#nucleic-q-options .opt-btn');
+  allBtns.forEach(b=>b.disabled = true);
+  if(i === q.answer){
+    btn.classList.add('correct');
+    state.quizCorrect++;
+    state.score += 15;
+  } else {
+    btn.classList.add('incorrect');
+    allBtns[q.answer].classList.add('correct');
+  }
+  document.getElementById('nucleic-hud-score3').textContent = `Score: ${state.score}`;
+  setTimeout(()=>{
+    state.quizIndex++;
+    if(state.quizIndex < state.shuffledQuestions.length){
+      showQuestion();
+    } else {
+      showResults();
+    }
+  }, 1000);
+}
+
+function showResults(){
+  const matchAcc = Math.round((state.correctMatchAttempts/state.totalMatchAttempts)*100) || 0;
+  const sortAcc = Math.round((state.correctSorts/state.totalSorts)*100) || 0;
+  const quizAcc = Math.round((state.quizCorrect/state.shuffledQuestions.length)*100);
+  const overall = Math.round((matchAcc+sortAcc+quizAcc)/3);
+  let grade = 'C';
+  if(overall>=90) grade='A';
+  else if(overall>=80) grade='A-';
+  else if(overall>=70) grade='B';
+  else if(overall>=60) grade='C';
+  else grade='D';
+
+  document.getElementById('nucleic-final-grade').textContent = grade;
+  document.getElementById('nucleic-stat-score').textContent = state.score;
+  document.getElementById('nucleic-stat-match-acc').textContent = matchAcc+'%';
+  document.getElementById('nucleic-stat-sort-acc').textContent = sortAcc+'%';
+  document.getElementById('nucleic-stat-quiz-acc').textContent = quizAcc+'%';
+  showScreen('nucleic-screen-results');
+}
+
+  function restart(){ stopTimer(); showScreen('nucleic-screen-start'); }
+  window.NucleicGame = {
+    startGame,
+    beginCurrentRound,
+    answerSort,
+    restart
+  };
+})();</script>
+
+</body>
+</html>
